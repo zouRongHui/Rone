@@ -11,7 +11,7 @@ package org.rone.core.designMode;
  *     缺点：多层装饰比较复杂。
  * @author rone
  */
-public class Decorator {
+public class DecoratorPattern {
 
     public static void main(String[] args) {
         Shape circle = new Circle();
