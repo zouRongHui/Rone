@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>h5页面查看pdf文件</title>
+    <link rel="stylesheet" href="https://www.gjtool.cn/pdfh5/css/pdfh5.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://www.gjtool.cn/pdfh5/js/pdf.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://www.gjtool.cn/pdfh5/js/pdf.worker.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://www.gjtool.cn/pdfh5/js/pdfh5.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div id="demo"></div>
+</body>
+<script type="text/javascript">
+    // https://github.com/gjTool/pdfh5
+    var pdfh5 = new Pdfh5('#demo', {
+        pdfurl: "https://www.gjtool.cn/pdfh5/git.pdf"
+    });
+
+    // $.ajax({
+    //     // url: "https://www.gjtool.cn/pdfh5/git.pdf", //假设这是pdf文件流的请求接口
+    //     type: "get",
+    //     mimeType: 'text/plain; charset=x-user-defined',//jq ajax请求文件流的方式
+    //     success: function (data) {
+    //         var pdfh5 = new Pdfh5('#demo', {
+    //             data: data
+    //         });
+    //     }
+    // });
+</script>
+</html>
