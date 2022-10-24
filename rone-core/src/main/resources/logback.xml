@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+根节点<configuration>，包含下面三个属性：
+    scan: 当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。
+    scanPeriod: 设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。
+    debug: 当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。
+-->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!-- <contextName>: 用来设置上下文名称,区分不同应用程序的记录 -->
+    <contextName>rone</contextName>
+
+    <!-- <property>: 用来定义变量值，它有两个属性name和value，使yong“${name}”来使用变量的value值。 -->
+    <property name="logPath" value="/home/log/rone"></property>
+    <property name="logPattern" value="%contextName %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%-10.10thread] %-40.40logger{40} : %msg%n"></property>
+
+    <!-- ConsoleAppender 把日志输出到控制台 -->
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <!--
+        配置输出的格式，官方文档：http://logback.qos.ch/manual/layouts.html
+        %contextName: <contextName>配置的内容
+        %d{yyyy-MM-dd HH:mm:ss.SSS}: 输出日期时间，参数为一个支持 java.text.SimpleDateFormat 的日期格式
+        %highlight(%-5level):
+            %highlight()：内容添加上颜色，ERROR：粗体红色，WARN：红色，INFO：蓝色，其他级别默认颜色
+            %-5level:
+                -5: 输出内容最少占5个字符，有负号表示不足的在右侧补空字符，无符号则在左侧补齐
+                level: 日志级别
+        %15.15(%thread):
+            %15.15():
+                15: 输出内容最少15个字符
+                .15：输出内容最多15个字符，无符号表示多余的内容从左侧开始缩写
+            %thread: 线程
+        %cyan(%-40.40(%logger{40})):
+            %cyan(): 颜色，支持这些颜色配置  "%black", "%red", "%green","%yellow","%blue", "%magenta","%cyan", "%white",
+                "%gray", "%boldRed","%boldGreen", "%boldYellow", "%boldBlue", "%boldMagenta""%boldCyan", "%boldWhite"
+            %-40.40(): 最少40字符，不足的右侧补齐；最多40个字符，多余的从左侧开始缩写
+            %logger{40}: 输出logger的名称，一般为类的全量名。
+                {40}：限制输出内容的长度，超过40的进行缩写。
+        %msg: 日志内容
+        %n: 换行
+        -->
+        <encoder>
+            <Pattern>%contextName %d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) --- [%15.15(%thread)] %cyan(%-40.40(%logger{40})) : %msg%n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- debug级别的日志 -->
+    <appender name="debugAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 指定输出的文件 -->
+        <file>${logPath}/rone-core_debug.log</file>
+        <!-- 配置输出格式 -->
+        <encoder>
+            <Pattern>${logPattern}</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 指定输出的日志级别 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>debug</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!-- 配置文件的归档 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 归档文件的格式 -->
+            <fileNamePattern>${logPath}/%d{yyyy-MM-dd}/main_debug_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <!-- 单个文件的大小，超过时触发归档 -->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- 配置所有文件总的大小，一旦达到这个值最旧的文件将会被移除 -->
+            <totalSizeCap>1GB</totalSizeCap>
+            <!--
+            历史日志文件留存保存期限
+            maxHistory的单位是根据fileNamePattern中的策略自动推算出来的,
+                例如上面选用了yyyy-MM-dd,则单位为天
+                如果上面选用了yyyy-MM,则单位为月,
+                另外上面的单位默认为yyyy-MM-dd
+            -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- info级别的日志 -->
+    <appender name="infoAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logPath}/rone-core_info.log</file>
+        <encoder>
+            <Pattern>${logPattern}</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>info</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/%d{yyyy-MM-dd}/main_info_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>1GB</totalSizeCap>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- warn级别的日志 -->
+    <appender name="warnAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logPath}/rone-core_warn.log</file>
+        <encoder>
+            <Pattern>${logPattern}</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>warn</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/%d{yyyy-MM-dd}/main_warn_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>1GB</totalSizeCap>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- error级别的日志 -->
+    <appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logPath}/rone-core_error.log</file>
+        <encoder>
+            <Pattern>${logPattern}</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>error</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/%d{yyyy-MM-dd}/main_error_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>1GB</totalSizeCap>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!--
+    <logger>：用来设置某一个包或具体的某一个类的日志打印级别。
+        name: 用来指定受此logger约束的某一个包或者具体的某一个类。
+        level: 用来设置打印级别。优先级：debug < info < warn < error，当选择输出 debug 时也是输出info、warn和error
+    -->
+    <logger name="org.rone.core" level="debug"></logger>
+
+    　  <root level="info">
+    <appender-ref ref="consoleAppender"></appender-ref>
+    <appender-ref ref="debugAppender"></appender-ref>
+    <appender-ref ref="infoAppender"></appender-ref>
+    <appender-ref ref="warnAppender"></appender-ref>
+    <appender-ref ref="errorAppender"></appender-ref>
+    　  </root>
+</configuration>

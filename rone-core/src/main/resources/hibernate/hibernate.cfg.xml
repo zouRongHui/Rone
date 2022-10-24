@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+
+        <!-- 配置连接数据库的基本信息 -->
+        <property name="hibernate.connection.username">rone</property>
+        <property name="hibernate.connection.password">rone</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/rone</property>
+
+        <!-- 配置进本信息 -->
+        <!-- 使用的数据库方言 -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL55Dialect</property>
+        <!-- 是否在控制台打印SQL -->
+        <property name="hibernate.show_sql">true</property>
+        <!-- 是否对SQL进行格式化 -->
+        <property name="hibernate.format_sql">true</property>
+        <!-- 指定自动生成数据表的策略 -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <!-- 设置事务隔离级别 -->
+        <property name="hibernate.connection.isolation">2</property>
+        <!-- 删除对象后，使其OID为null -->
+        <property name="hibernate.use_identifier_rollback">true</property>
+        <!-- 为每个线程生成一个session -->
+        <property name="hibernate.current_session_context_class">thread</property>
+
+        <!-- 使用C3P0数据源 -->
+        <!-- 连接池中最大和最小连接数 -->
+        <property name="hibernate.c3p0.max_size">10</property>
+        <property name="hibernate.c3p0.min_size">5</property>
+        <!-- 当连接池需要向数据库获取连接时，一次获取多少个连接 -->
+        <property name="hibernate.c3p0.acquire_increment">3</property>
+        <!-- 连接池中连接对象超时多久会被销毁，单位毫秒 -->
+        <property name="hibernate.c3p0.timeout">2000</property>
+        <!-- 多久会去进行一次连接对象超时销毁检测，单位毫秒 -->
+        <property name="hibernate.c3p0.idle_test_period">5000</property>
+        <!-- 缓存statement对象数量 -->
+        <property name="hibernate.c3p0.max_statements">10</property>
+
+        <!-- 指定关联的.hbm.xml文件 -->
+        <mapping resource="hibernate/News.hbm.xml"/>
+
+        <!-- 指定使用@注解的实体类 -->
+        <mapping class="org.rone.core.util.hibernate.entity.Employee"/>
+        <mapping class="org.rone.core.util.hibernate.entity.User"/>
+    </session-factory>
+</hibernate-configuration>
