@@ -9,10 +9,13 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
+import java.net.URLEncoder;
 import java.util.Base64;
 
 /**
+ * 具体的业务实现，实际项目中服务都应该设计为接口暴露，此处偷懒了
+ * @Service 将该类标注为ioc中的一个服务类
  * @author rone
  */
 @Service
@@ -40,6 +43,26 @@ public class RoneService {
         logger.debug("通过 @Value 无法给static变量赋值, {}", RONE);
     }
 
+    /**
+     * 下载文件
+     * @param response
+     * @throws Exception
+     */
+    public void downloadFile(HttpServletResponse response) throws Exception {
+        response.reset();
+        response.setContentType("application/txt;charset=utf-8");
+        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("日志" + ".log", "UTF-8"));
+        File file = new File("/home/log/rone/rone-web_info.log");
+        InputStream inputStream = new FileInputStream(file);
+        OutputStream outputStream = response.getOutputStream();
+        byte[] b = new byte[100];
+        while (inputStream.read(b) != -1) {
+            outputStream.write(b);
+        }
+        inputStream.close();
+        outputStream.flush();
+        outputStream.close();
+    }
 
     /**
      * 用前端传递来的图片数据生成pdf文件并下载

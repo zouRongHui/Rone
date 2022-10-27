@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--配置编码格式，解决中文乱码-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Spring MVC</title>
+    <!--嵌入式 的css-->
+    <style type="text/css">
+        /* 选择器{ 属性1:value1; 属性2:value2; }*/
+        strong {
+            display: block;
+        }
+        form {
+            display: inline;
+        }
+    </style>
+    <script type="text/javascript" src="/static/jquery/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <hr/>
+    <strong>Demo，仅get可请求</strong>
+    <a href="/rone/success">/rone/success</a>&nbsp;&nbsp;&nbsp;
+    <form action="/rone/success" method="post">
+        <input type="submit" value="/rone/success"/>
+    </form>
+    <hr/>
+
+    <strong>转发请求</strong>
+    <a href="/rone/redirect">/rone/redirect</a>
+    <hr/>
+
+    <strong>在页面上展示后端返回的结果</strong>
+    <a href="/rone/showResultInView">/rone/redirect</a>
+    <hr/>
+
+    <strong>使用Map将数据返回</strong>
+    <a href="/rone/map">/rone/map</a>
+    <hr/>
+
+    <strong>请求地址、请求方式 多重配置</strong>
+    <a href="/rone/get">/rone/get</a>&nbsp;&nbsp;&nbsp;<a href="/rone/post">/rone/post</a><br/>
+    <form action="/rone/get" method="post">
+        <input type="submit" value="/rone/get"/>
+    </form>&nbsp;&nbsp;&nbsp;
+    <form action="/rone/post" method="post">
+        <input type="submit" value="/rone/post"/>
+    </form>
+    <hr/>
+
+    <strong>ant风格的请求</strong>
+    <a href="/rone/ant_1_rone/test/rone/ant">/rone/ant_1_rone/test/rone/ant</a>&nbsp;&nbsp;&nbsp;
+    <a href="/rone/ant_2_1/rone/ant">/rone/ant_2_1/rone/ant</a>
+    <hr/>
+
+    <strong>带参请求</strong>
+    <a href="rone/requestWithParam?userName=rone&passWord=123">rone/requestWithParam?userName=rone&passWord=123</a>
+    <hr/>
+
+    <strong>URL中的占位符参数</strong>
+    <a href="/rone/pathVariable/rone">/rone/pathVariable/rone</a>&nbsp;&nbsp;&nbsp;
+    <a href="/rone/pathVariable/fuck">/rone/pathVariable/fuck</a>
+    <hr/>
+
+    <strong>ajax使用json格式参数请求</strong>
+    <a href="javascript: void(0);" onclick="nativeAjaxWithJsonParam()">原生的ajax使用json格式参数请求</a>&nbsp;&nbsp;&nbsp;
+    <a href="javascript: void(0);" onclick="jqueryAjaxWithJsonParam()">jQuery的ajax使用json格式参数请求</a>
+    <hr/>
+
+    <strong>REST风格的请求</strong>
+    <form action="rone/rest" method="get">
+        <input type="hidden" name="_method" value="get">
+        <input type="submit" value="rest_get">
+    </form>&nbsp;&nbsp;&nbsp;
+    <form action="rone/rest" method="get">
+        <input type="hidden" name="_method" value="post">
+        <input type="submit" value="rest_post">
+    </form>&nbsp;&nbsp;&nbsp;
+    <form action="rone/rest" method="get">
+        <input type="hidden" name="_method" value="delete">
+        <input type="submit" value="rest_delete">
+    </form>&nbsp;&nbsp;&nbsp;
+    <form action="rone/rest" method="get">
+        <input type="hidden" name="_method" value="put">
+        <input type="submit" value="rest_put">
+    </form>
+    <hr/>
+
+    <strong>返回值为ModelAndView</strong>
+    <a href="/rone/modelAndView">/rone/modelAndView</a>
+    <hr/>
+
+    <strong>将数据存在session中</strong>
+    <a href="/rone/sessionAttributes">/rone/sessionAttributes</a>
+    <hr/>
+
+    <strong>支持pojo类型的参数</strong>
+    <form action="/rone/pojo" method="post">
+        userName: <input type="text" name="userName" value="zouRongHui"/><br/>
+        userNo: <input type="password" name="userNo" value="123456"/><br/>
+        userExplain: <input type="text" name="userExplain" value="fuck"/><br/>
+        address.province: <input type="text" name="address.province" value="浙江"/><br/>
+        address.city: <input type="text" name="address.city" value="杭州"/><br/>
+        date: <input type="text" name="date" value="2020-04-27 20:59:33"/><br/>
+        <input type="submit" value="/rone/pojo">
+    </form>
+    <hr/>
+
+    <strong>原生的ServletAPI作为参数</strong>
+    <a href="/rone/servletAPI">/rone/servletAPI</a>
+    <hr/>
+
+    <strong>直接返回json数据</strong>
+    <a href="/rone/returnData">/rone/returnData</a>
+    <hr/>
+
+    <strong>下载文件</strong>
+    <a href="/rone/downloadFile">/rone/downloadFile</a>
+    <hr/>
+
+    <strong>Echarts</strong>
+    <a href="/html/echarts.html">/rone/downloadFile</a>
+    <hr/>
+
+    <strong>layui</strong>
+    <a href="/html/layui.html">/views/layui.html</a>
+    <hr/>
+
+    <strong>将当前页面下载成图片</strong>
+    <a href="/html/html2img.html">/views/h5.html</a>
+    <hr/>
+
+    <strong>获取用户移动设备的型号</strong>
+    <a href="/h5/h5.html">/views/h5.html</a>
+    <hr/>
+
+    <strong>h5查看pdf</strong>
+    <a href="/h5/pdfDemo.html">/views/h5.html</a>
+    <hr/>
+
+    <strong>h5上传图片</strong>
+    <a href="/h5/uploadImg.html">/views/h5.html</a>
+    <hr/>
+
+</body>
+<script type="text/javascript">
+
+    /**
+     * 使用原生的ajax已json格式的参数请求
+     */
+    function nativeAjaxWithJsonParam() {
+        var xmlHttp;
+        if (window.XMLHttpRequest) {
+            xmlHttp = new XMLHttpRequest();
+        } else {
+            xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlHttp.onreadystatechange = function () {
+            console.log(xmlHttp.readyState);
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                console.log(xmlHttp.responseText);
+            }
+        }
+        var data = {};
+        data.userName = "rone";
+        data.password = "123456";
+        data.email = "rone@rone.com";
+        data.phone = "180****4912";
+        data.date = "2020-05-13";
+        var string = JSON.stringify(data);
+        xmlHttp.open('POST', '/rone/requestWithJsonParam');
+        xmlHttp.setRequestHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
+        xmlHttp.setRequestHeader("Content-type","application/json; charset=utf-8");
+        xmlHttp.send(string);
+    }
+
+    /**
+     * 使用jQuery库中的ajax已json格式的参数请求
+     */
+    function jqueryAjaxWithJsonParam() {
+        $.ajax({
+            url: '/rone/requestWithJsonParam',
+            method: 'POST',
+            data: JSON.stringify({
+                userName : "rone",
+                password : "123456",
+                email : "rone@rone.com",
+                phone : "180****4912",
+                date : "2020-05-13"
+            }),
+            headers: {
+                Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3"
+            },
+            contentType: 'application/json; charset=utf-8',
+            success: function (res) {
+                console.log(res);
+            }
+        });
+    }
+
+</script>
+</html>
