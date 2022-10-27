@@ -1,5 +1,7 @@
 package org.rone.core.util;
 
+import cn.hutool.core.date.StopWatch;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.asymmetric.AsymmetricAlgorithm;
 import cn.hutool.crypto.asymmetric.KeyType;
@@ -13,8 +15,44 @@ import java.security.KeyPair;
  */
 public class HutoolDemo {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+        stopWatch();
+        str();
         rsaSecure();
+    }
+
+    /**
+     * StopWatch 耗时统计
+     * @throws InterruptedException
+     */
+    public static void stopWatch() throws InterruptedException {
+        StopWatch stopWatch = new StopWatch("耗时统计");
+
+        stopWatch.start("first");
+        Thread.sleep(100);
+        stopWatch.stop();
+
+        stopWatch.start("second");
+        Thread.sleep(200);
+        stopWatch.stop();
+
+        stopWatch.start("third");
+        Thread.sleep(300);
+        stopWatch.stop();
+
+        stopWatch.start("fourth");
+        Thread.sleep(400);
+        stopWatch.stop();
+
+        System.out.println(stopWatch.prettyPrint());
+    }
+
+    /**
+     * 字符串相关的使用示例
+     */
+    public static void str() {
+        // 生成32位随机字符
+        System.out.println(RandomUtil.randomString(32));
     }
 
     /**

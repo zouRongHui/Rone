@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>html转image并下载</title>
+</head>
+<body style="background-color: #ffffff">
+<!--页面上展示的图片会进行宽高限制，会在后续的html2img的操作中丢失质量，可以将实际需要下载的页面放置于最下面不进行大小的限制展示原图，这样话就不会丢失质量-->
+<div style="z-index: 3;position: fixed;">
+    <div><button type="button" onclick="dowmHtml('div_image')">下载</button></div>
+    <div>
+        <h1>下载</h1>
+        <img src="/image/1.png" style="width: 400px;">
+        <div style="display: inline-block; width: 400px; height: 250px; background: url('/image/2.jpg'); background-size: 400px; background-repeat: no-repeat;"></div>
+    </div>
+</div>
+<div style="z-index: 2;position: fixed;width: 1920px;height: 2000px;background-color: white;"></div>
+<div id="div_image" style="z-index: 1;position: fixed;">
+    <h1>下载</h1>
+    <img src="/image/1.png">
+    <div style="width: 1920px; height: 982px; background: url('/image/2.jpg'); background-repeat: no-repeat;"></div>
+</div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+<script src="/js/html2img.js"></script>
+<script type="text/javascript">
+    function dowmHtml(id) {
+        generateCapture({
+            id: 'div_image',
+            fileName: 'html.png',
+            scale: 1,
+            onSuccess: function(){
+                console.log('成功');
+            },
+            onFail: function(){
+                console.log('失败');
+            }
+        });
+    }
+</script>
+</html>

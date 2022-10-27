@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>获取用户移动设备的型号</title>
+</head>
+<body style="font-size: 30px;">
+<div id="userAgent"></div>
+<hr>
+<div id="os"></div>
+</body>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.4/mobile-detect.min.js"></script>
+<script>
+    //判断数组中是否包含某字符串
+    Array.prototype.contains = function(needle) {
+        for (i in this) {
+            if (this[i].indexOf(needle) > 0)
+                return i;
+        }
+        return -1;
+    }
+
+    var device_type = navigator.userAgent;//获取userAgent信息
+    console.log(device_type);//打印到页面
+    document.getElementById("userAgent").innerHTML = device_type;
+    var md = new MobileDetect(device_type);//初始化mobile-detect
+    var os = md.os();//获取系统
+    var model = "";
+    if (os == "iOS") {//ios系统的处理
+        os = md.os() + md.version("iPhone");
+        model = md.mobile();
+    } else if (os == "AndroidOS") {//Android系统的处理
+        os = md.os() + md.version("Android");
+        var sss = device_type.split(";");
+        var i = sss.contains("Build/");
+        if (i > -1) {
+            model = sss[i].substring(0, sss[i].indexOf("Build/"));
+        }
+    }
+    console.log(os + "---" + model);//打印系统版本和手机型号
+    document.getElementById("os").innerHTML = os + "---" + model;
+
+</script>
+</html>

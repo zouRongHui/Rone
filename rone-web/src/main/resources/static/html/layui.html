@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>layui</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/layui/2.5.6/css/layui.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/layui/2.5.6/layui.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li>layer弹出层</li>
+            <li>table表格</li>
+            <li>form表单</li>
+            <li>日期与时间选择</li>
+            <li>文件上传</li>
+            <li>富文本编辑器</li>
+            <li>分页</li>
+            <li>树形组件</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item">
+                <!--layer弹出层-->
+                <div class="layui-btn-container">
+                    <button type="button" class="layui-btn" onclick="layerAlertWithCallBack()">带回调函数的提示框</button>
+                    <button type="button" class="layui-btn" onclick="layerMsgTypeError()">错误类型的提示框</button>
+                    <button type="button" class="layui-btn" onclick="layerConfirm()">确认框</button>
+                    <button type="button" class="layui-btn" onclick="layerOpenChildIframe()" id="btn_layerOpenChildIframe">打开一个iframe子窗口</button>
+                    <a href="https://layui.itze.cn/" target="_blank" class="layui-btn layui-btn-xs layui-btn-danger">更多请移至layer的官网</a>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <!--table表格-->
+                <div class="layui-btn-group demoTable">
+                    <button class="layui-btn layui-btn-danger" onclick="batchOperate()">批量操作</button>
+                </div>
+                <table class="layui-hide" id="demo"></table>
+            </div>
+            <div class="layui-tab-item">
+                <!-- form表单 -->
+                <form class="layui-form" action="" lay-filter="demo_form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">单行输入框</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">单行选择框</label>
+                        <div class="layui-input-block">
+                            <select name="hobby" id="sel_hobby" lay-filter="hobby">
+                                <option value=""></option>
+                                <option value="0">写作</option>
+                                <option value="1">阅读</option>
+                                <option value="2">游戏</option>
+                                <option value="3">音乐</option>
+                                <option value="4">旅行</option>
+                                <option value="more">更多</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button type="submit" class="layui-btn" lay-submit="" lay-filter="*">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-tab-item">
+                日期与时间选择-待完善
+            </div>
+            <div class="layui-tab-item">
+                文件上传-待完善
+            </div>
+            <div class="layui-tab-item">
+                富文本编辑器-待完善
+            </div>
+            <div class="layui-tab-item">
+                分页-待完善
+            </div>
+            <div class="layui-tab-item">
+                树形组件-待完善
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+
+    layui.use('form', function(){
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+
+        /*
+        * 赋值, https://www.layui.com/doc/modules/form.html#val
+        * 语法：form.val('filter', object);
+        *   filter：即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
+        *   object：键值对，表单元素对应的 name 和 value
+        */
+        form.val('demo_form', {
+            "title": "demo"
+        });
+
+        /*
+        * 自定义表单验证规则，https://www.layui.com/doc/modules/form.html#verify
+        * 1.在表单元素上加上 lay-verify="" 属性值
+        *   多条规则：用 | 分隔
+        * 2.编辑验证规则
+        *   key为表单元素 lay-verify 的属性值
+        */
+        form.verify({
+            title: function (value) {
+                if (value.length < 1) {
+                    return "请输入标题";
+                }
+            }
+        });
+
+        /*
+        * 事件监听, https://www.layui.com/doc/modules/form.html#on
+        * 语法：form.on('event(过滤器值)', callback);
+        *   event
+        *       select	    监听select下拉选择事件
+        *       checkbox	监听checkbox复选框勾选事件
+        *       switch	    监听checkbox复选框开关事件
+        *       radio	    监听radio单选框事件
+        *       submit	    监听表单提交事件
+        *   过滤器值，表单元素 lay-filter 的属性值，设置了过滤值意为只监听这一个元素
+        */
+        form.on("select(hobby)", function (data) {
+            console.log(data.elem); //得到select原始DOM对象
+            console.log(data.value); //得到被选中的值
+            console.log(data.othis); //得到美化后的DOM对象
+            if (data.value == "more") {
+                form.val('demo_form', {
+                    "hobby": ""
+                });
+                moreHobby();
+            }
+        });
+        form.on('submit(*)', function(data){
+            console.log(data.elem); //被执行事件的元素DOM对象，一般为button对象
+            console.log(data.form); //被执行提交的form对象，一般在存在form标签时才会返回
+            console.log(data.field); //当前容器的全部表单字段，名值对形式：{name: value}
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+        /*
+        * 动态HTML更新渲染，https://www.layui.com/doc/modules/form.html#render
+        * 语法：form.render(type, filter);
+        *   type
+        *       select	    刷新select选择框渲染
+        *       checkbox	刷新checkbox复选框（含开关）渲染
+        *       radio	    刷新radio单选框框渲染
+        *   filter，为 class="layui-form" 所在元素的 lay-filter="" 的值
+        * tips:
+        *   form.render('select'); //刷新select选择框渲染
+        *   form.render(); //更新全部
+        */
+        function moreHobby() {
+            $("#sel_hobby option:last").remove();
+            $("#sel_hobby").append("<option value='5'>写代码</option>");
+            $("#sel_hobby").append("<option value='6'>编程</option>");
+            $("#sel_hobby").append("<option value='7'>改bug</option>");
+            form.render("select");
+        }
+
+
+    });
+
+    /**
+     * 带回调函数的提示框
+     */
+    function layerAlertWithCallBack() {
+        layer.alert("带回调函数的提示框", {icon: 6, title: '自定义的标题'}, function () {
+            layer.msg("我是回调函数触发的哦");
+        })
+    }
+
+    /**
+     * 错误类型的提示框
+     */
+    function layerMsgTypeError() {
+        layer.msg("出错了！", {icon: 2}, function () {
+            //回调函数
+        })
+    }
+
+    /**
+     * 确认框
+     */
+    function layerConfirm() {
+        layer.confirm('你确定要这么做吗?',
+            {
+                btn: ['好的', '不了'],//默认是 确认 取消
+                title: '你真的确定吗？'
+            },
+            function() {layer.msg('你点击了确认')},
+            function() {layer.msg('你取消了操作')});
+    }
+
+    /**
+     * 打开一个iframe子框口
+     */
+    function layerOpenChildIframe() {
+        layer.open({
+            type: 2,
+            area: ['700px', '450px'],
+            fixed: false, // 子窗口不固定
+            maxmin: true, // 子窗口支持最大化最小化
+            content: '/html/layui-iframe.html'
+        });
+    }
+
+    //展示已知数据
+    layui.table.render({
+        elem: '#demo',// 指定原始 table 容器的选择器或 DOM
+        id: 'idDemo',// 设定容器唯一 id
+        totalRow: true,//开启合计行
+        /*
+        * 表头，可通过多层数据设置多级、复杂的表头
+        * field: 对应 data 中的具体数据的key值，可将数据填充
+        * title: 表头标题
+        * align: 单元格排列方式。可选值有：left（默认）、center（居中）、right（居右）
+        * rowspan: 单元格所占行数（默认：1）
+        * colspan: 单元格所占列数（默认：1）
+        * type: 设定列类型。可选值有：normal（常规列，无需设定）、checkbox（复选框列）、radio（单选框列，layui 2.4.0 新增）、numbers（序号列）、space（空列）
+        * width: 设定列宽，支持值为：数字、百分比
+        * minWidth: 局部定义当前常规单元格的最小宽度（默认：60）
+        * sort: 是否允许排序（默认：false）
+        * hide: 是否初始隐藏列，默认：false
+        * totalRow: 是否开启该列的自动合计功能，默认：false。需要配合父级同名元素一起使用
+        */
+        cols: [
+            [
+                {field: '', title: '数据详情', align: 'center', rowspan: 1, colspan: 8}
+            ],
+            [ //标题栏
+                {type:'checkbox'},
+                {field: 'id', title: 'ID', width: 80, sort: true, hide: true},
+                {field: 'username', title: '用户名', width: 120},
+                {field: 'email', title: '邮箱', minWidth: 150},
+                {field: 'sign', title: '签名', minWidth: 160},
+                {field: 'sex', title: '性别', width: 80},
+                {field: 'city', title: '城市', width: 100},
+                //
+                {field: 'experience', title: '积分', width: 80, sort: true, totalRow: true}
+            ]
+        ],
+        // 表格数据
+        data: [
+            {
+                "id": "10001",
+                "username": "杜甫",
+                "email": "dufu@rone.com",
+                "sex": "男",
+                "city": "河南巩县",
+                "sign": "人生天地间，忽如远行客",
+                "experience": "116",
+                "ip": "192.168.0.8",
+                "logins": "108",
+                "joinTime": "2016-10-14"
+            },
+            {
+                "id": "10002",
+                "username": "李白",
+                "email": "libai@rone.com",
+                "sex": "男",
+                "city": "甘肃天水",
+                "sign": "往后余生，清平是你，繁华也是你",
+                "experience": "12",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            },
+            {
+                "id": "10003",
+                "username": "王勃",
+                "email": "wangbo@rone.com",
+                "sex": "男",
+                "city": "山西河津",
+                "sign": "浅笑安然，寂静欢喜",
+                "experience": "65",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            },
+            {
+                "id": "10004",
+                "username": "李清照",
+                "email": "liqingzhao@rone.com",
+                "sex": "女",
+                "city": "山东济南",
+                "sign": "一念成佛，一念成魔。你若不度我成佛，那我度你入魔。",
+                "experience": "666",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            },
+            {
+                "id": "10005",
+                "username": "白居易",
+                "email": "baijuyi@rone.com",
+                "sex": "男",
+                "city": "山西太原",
+                "sign": "再被你提起，已是连名带姓",
+                "experience": "86",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            },
+            {
+                "id": "10006",
+                "username": "苏轼",
+                "email": "sushi@rone.com",
+                "sex": "男",
+                "city": "四川眉山",
+                "sign": "被烟熏燎的不只是手指和咽喉，还有忧愁",
+                "experience": "12",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            },
+            {
+                "id": "10007",
+                "username": "无名氏",
+                "email": "wumingshi@rone.com",
+                "sex": "未知",
+                "city": "中国",
+                "sign": "花未成开过，我也未成来过",
+                "experience": "16",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            },
+            {
+                "id": "10008",
+                "username": "不详",
+                "email": "buxiang@rone.com",
+                "sex": "未知",
+                "city": "中国",
+                "sign": "无论你身处何方，依旧静静的辉煌",
+                "experience": "106",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            }
+        ],
+        skin: 'line', //表格风格，line （行边框风格）、row （列边框风格）、nob （无边框风格）
+        even: true, //是否设置隔行背景
+        page: true, //是否显示分页
+        limits: [5, 7, 10], //可供选择的每页数据量
+        limit: 5, //每页默认显示的数量
+        done: function (res, curr, count) {// 数据渲染完的回调
+            //如果是异步请求数据方式，res即为你接口返回的信息。
+            //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+            console.log(res);
+            //得到当前页码
+            console.log(curr);
+            //得到数据总量
+            console.log(count);
+
+            // 可在此处配置表头的个性化样式，例如文本大小
+        }
+    });
+
+    /**
+     * 表格批量操作
+     */
+    function batchOperate() {
+        layer.msg("见开发者工具的Console");
+        var checkStatus = layui.table.checkStatus('idDemo');
+        var data = checkStatus.data;
+        console.log("选中数据的数量为：" + data.length);
+        console.log("选中的数据如下：");
+        console.log(data);
+        console.log("表格是否全选判断：" + (checkStatus.isAll ? '全选': '未全选'));
+    }
+</script>
+</html>

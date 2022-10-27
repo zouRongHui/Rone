@@ -7,7 +7,7 @@
 -->
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
     <!-- <contextName>: 用来设置上下文名称,区分不同应用程序的记录 -->
-    <contextName>rone-core</contextName>
+    <contextName>rone-web</contextName>
 
     <!-- <property>: 用来定义变量值，它有两个属性name和value，使yong“${name}”来使用变量的value值。 -->
     <property name="logPath" value="/home/log/rone"></property>
@@ -47,7 +47,7 @@
     <!-- debug级别的日志 -->
     <appender name="debugAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 指定输出的文件 -->
-        <file>${logPath}/rone-core_debug.log</file>
+        <file>${logPath}/rone-web_debug.log</file>
         <!-- 配置输出格式 -->
         <encoder>
             <Pattern>${logPattern}</Pattern>
@@ -62,7 +62,7 @@
         <!-- 配置文件的归档 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 归档文件的格式 -->
-            <fileNamePattern>${logPath}/%d{yyyy-MM-dd}/main_debug_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <fileNamePattern>${logPath}/%d{yyyy-MM-dd}/springboot_debug_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
             <!-- 单个文件的大小，超过时触发归档 -->
             <maxFileSize>10MB</maxFileSize>
             <!-- 配置所有文件总的大小，一旦达到这个值最旧的文件将会被移除 -->
@@ -80,7 +80,7 @@
 
     <!-- info级别的日志 -->
     <appender name="infoAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${logPath}/rone-core_info.log</file>
+        <file>${logPath}/rone-web_info.log</file>
         <encoder>
             <Pattern>${logPattern}</Pattern>
             <charset>UTF-8</charset>
@@ -91,7 +91,7 @@
             <onMismatch>DENY</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${logPath}/%d{yyyy-MM-dd}/main_info_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <fileNamePattern>${logPath}/%d{yyyy-MM-dd}/springboot_info_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
             <totalSizeCap>1GB</totalSizeCap>
             <maxHistory>30</maxHistory>
@@ -100,7 +100,7 @@
 
     <!-- warn级别的日志 -->
     <appender name="warnAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${logPath}/rone-core_warn.log</file>
+        <file>${logPath}/rone-web_warn.log</file>
         <encoder>
             <Pattern>${logPattern}</Pattern>
             <charset>UTF-8</charset>
@@ -111,7 +111,7 @@
             <onMismatch>DENY</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${logPath}/%d{yyyy-MM-dd}/main_warn_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <fileNamePattern>${logPath}/%d{yyyy-MM-dd}/springboot_warn_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
             <totalSizeCap>1GB</totalSizeCap>
             <maxHistory>30</maxHistory>
@@ -120,7 +120,7 @@
 
     <!-- error级别的日志 -->
     <appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${logPath}/rone-core_error.log</file>
+        <file>${logPath}/rone-web_error.log</file>
         <encoder>
             <Pattern>${logPattern}</Pattern>
             <charset>UTF-8</charset>
@@ -131,7 +131,7 @@
             <onMismatch>DENY</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${logPath}/%d{yyyy-MM-dd}/main_error_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <fileNamePattern>${logPath}/%d{yyyy-MM-dd}/springboot_error_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
             <totalSizeCap>1GB</totalSizeCap>
             <maxHistory>30</maxHistory>
@@ -143,13 +143,13 @@
         name: 用来指定受此logger约束的某一个包或者具体的某一个类。
         level: 用来设置打印级别。优先级：debug < info < warn < error，当选择输出 debug 时也是输出info、warn和error
     -->
-    <logger name="org.rone.core" level="debug"></logger>
+    <logger name="org.rone.web" level="debug"></logger>
 
-    　  <root level="info">
-    <appender-ref ref="consoleAppender"></appender-ref>
-    <!--<appender-ref ref="debugAppender"></appender-ref>-->
-    <appender-ref ref="infoAppender"></appender-ref>
-    <appender-ref ref="warnAppender"></appender-ref>
-    <appender-ref ref="errorAppender"></appender-ref>
-    　  </root>
+　  <root level="info">
+        <appender-ref ref="consoleAppender"></appender-ref>
+        <!--<appender-ref ref="debugAppender"></appender-ref>-->
+        <appender-ref ref="infoAppender"></appender-ref>
+        <appender-ref ref="warnAppender"></appender-ref>
+        <appender-ref ref="errorAppender"></appender-ref>
+　  </root>
 </configuration>

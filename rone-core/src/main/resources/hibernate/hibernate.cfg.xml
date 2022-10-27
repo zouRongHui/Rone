@@ -45,6 +45,6 @@
 
         <!-- 指定使用@注解的实体类 -->
         <mapping class="org.rone.core.util.hibernate.entity.Employee"/>
-        <mapping class="org.rone.core.util.hibernate.entity.User"/>
+        <mapping class="org.rone.core.util.hibernate.entity.People"/>
     </session-factory>
 </hibernate-configuration>

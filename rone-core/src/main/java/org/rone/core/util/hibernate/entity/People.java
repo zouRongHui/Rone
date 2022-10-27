@@ -10,8 +10,8 @@ import java.util.List;
  * @author Rone
  */
 @Entity
-@Table(name = "user")
-public class User implements Serializable {
+@Table(name = "people")
+public class People implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,18 +25,18 @@ public class User implements Serializable {
      */
     @ManyToOne
     @JoinColumn(name = "father_id")
-    private User father;
+    private People father;
 
     /**
      * 孩子
      */
-    @OneToMany(mappedBy = "father", targetEntity = User.class, cascade = CascadeType.ALL)
-    private List<User> childs = new ArrayList<>();
+    @OneToMany(mappedBy = "father", targetEntity = People.class, cascade = CascadeType.ALL)
+    private List<People> childs = new ArrayList<>();
 
-    public User() {
+    public People() {
     }
 
-    public User(String name) {
+    public People(String name) {
         this.name = name;
     }
 
@@ -66,19 +66,19 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public User getFather() {
+    public People getFather() {
         return father;
     }
 
-    public void setFather(User father) {
+    public void setFather(People father) {
         this.father = father;
     }
 
-    public List<User> getChilds() {
+    public List<People> getChilds() {
         return childs;
     }
 
-    public void setChilds(List<User> childs) {
+    public void setChilds(List<People> childs) {
         this.childs = childs;
     }
 }

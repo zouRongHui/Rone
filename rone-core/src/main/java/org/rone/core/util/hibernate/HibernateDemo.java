@@ -9,7 +9,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.query.Query;
 import org.rone.core.util.hibernate.entity.Employee;
 import org.rone.core.util.hibernate.entity.News;
-import org.rone.core.util.hibernate.entity.User;
+import org.rone.core.util.hibernate.entity.People;
 
 import java.sql.Date;
 import java.util.List;
@@ -186,17 +186,17 @@ public class HibernateDemo {
      * @param session
      */
     public static void testParentAndChild(Session session) {
-        // User parent = new User("parent");
+        // People parent = new People("parent");
         // session.save(parent);
-        // User child = new User("child");
+        // People child = new People("child");
         // child.setFather(parent);
         // session.save(child);
 
-        User parent = session.get(User.class, 1);
-        // User{id=1, name='parent', father=null, childs=[User{id=2, name='child', father=parent, childs=[]}]}
+        People parent = session.get(People.class, 1);
+        // People{id=1, name='parent', father=null, childs=[People{id=2, name='child', father=parent, childs=[]}]}
         System.out.println(parent);
-        User child = session.get(User.class, 2);
-        // User{id=2, name='child', father=parent, childs=[]}
+        People child = session.get(People.class, 2);
+        // People{id=2, name='child', father=parent, childs=[]}
         System.out.println(child);
     }
 }
