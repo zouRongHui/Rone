@@ -1,7 +1,11 @@
 package org.rone.core.jdk;
 
 /**
- * 内部类、嵌套类、匿名类
+ * Java中的内部类(嵌套类)共分为四种：
+ * 　　静态内部类，在其他类中使用InnerClass inner = new OuterClass.InnerClass();
+ * 　　成员内部类，在其他类中使用(new Outerclass()).new Innerclass();
+ * 　　局部内部类，局部内部类在方法中定义，所以只能在方法中使用
+ * 　　匿名内部类，就是没有名字的局部内部类。
  * @author rone
  */
 public class InnerClassDemo {

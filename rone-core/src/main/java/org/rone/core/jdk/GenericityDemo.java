@@ -4,7 +4,7 @@ import java.io.Closeable;
 import java.io.IOException;
 
 /**
- * 泛型
+ * 泛型：用特定的符号(通常为大写的单字母 T U V)来表示一个未知的对象类型，以便让代码可以跨类执行。
  * @author rone
  */
 public class GenericityDemo {
@@ -32,7 +32,7 @@ public class GenericityDemo {
         /**
          * 泛型在方法上的使用。
          * 多泛型的使用。
-         * 泛型的擦除。
+         * 泛型的擦除：泛型信息（类型变量、参数化类型）编译之后通通被除掉了，导致例如实例化、调用方法之类的操作编译报错。
          * @param u
          * @param v
          * @param <U>

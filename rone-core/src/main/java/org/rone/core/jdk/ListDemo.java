@@ -11,9 +11,51 @@ import java.util.*;
 public class ListDemo {
 
     public static void main(String[] args) {
+        // demo();
         // copy();
         // removeItem();
         partition();
+    }
+
+    public static void demo() {
+        List<String> list = new ArrayList<String>();
+        list.add("str1");
+        list.add("str2");
+
+        // 判断list是否包含object
+        if (list.contains("str2")) {
+            System.out.println("list 中包含 str2 字符串");
+        }
+
+        // 遍历List
+        for (String s : list) {
+            System.out.print(s + ",");
+        }
+
+        // 合并同类型的list
+        List<String> list2 = new ArrayList<>();
+        list2.addAll(list);
+
+        // List和Set 互相转换
+        Set<String> set = new HashSet<>(list);
+        List<String> list3 = new ArrayList<>(set);
+
+        // List<String>、String[]互转
+        String[] arr = (String[])list.toArray(new String[list.size()]);
+        List<String> list4 = Arrays.asList(arr);
+
+        // 截取List, 截取[0,6)
+        list.subList(0, 6);
+
+        // 空List的常见操作
+        List<String> strs = new ArrayList<String>();
+        //true
+        strs.isEmpty();
+        //0
+        strs.size();
+        //java.lang.IndexOutOfBoundsException
+        strs.get(0);
+
     }
 
     /**

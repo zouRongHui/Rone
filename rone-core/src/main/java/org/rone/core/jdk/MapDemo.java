@@ -4,6 +4,7 @@ import org.rone.core.jdk.enumeration.RoneEnum;
 
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -13,7 +14,41 @@ import java.util.Map;
 public class MapDemo {
 
     public static void main(String[] args) {
+        // demo();
         enumMapDemo();
+    }
+
+    public static void demo() {
+       // initialCapacity要大于0，不然会报错
+        Map<String, String> map = new HashMap<>(3);
+        map.put("1", "rone");
+        map.put("2", "fuck");
+        map.put("3", "snow");
+        // 遍历 键、值
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+        }
+        // 在for-each循环中遍历keys或values
+        //遍历map中的键
+        for (String key : map.keySet()) {
+            System.out.println("Key = " + key);
+        }
+        //遍历map中的值
+        for (String value : map.values()) {
+            System.out.println("Value = " + value);
+        }
+        // 使用Iterator遍历
+        Iterator<Map.Entry<String, String>> entries = map.entrySet().iterator();
+        while (entries.hasNext()) {
+            Map.Entry<String, String> entry = entries.next();
+            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+        }
+        // 通过键找值遍历（效率低）
+        for (String key : map.keySet()) {
+            String value = map.get(key);
+            System.out.println("Key = " + key + ", Value = " + value);
+        }
+
     }
 
     /**

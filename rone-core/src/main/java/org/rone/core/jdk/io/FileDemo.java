@@ -6,7 +6,43 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * 读取一个文件夹/文件
+ * 文件对象的操作
+ * 创建文件
+ *     if (!file.exists()) {
+ *         //文件
+ *         file.createNewFile();
+ *         //文件夹
+ *         file.mkdirs();
+ *     }
+ * 删除文件，若文件为文件夹，则需要删除其所有的子文件才能删除该文件夹，否则删除不成功
+ *     file.delete();
+ * 读取文件
+ *     InputStream inputStream = new FileInputStream(file);
+ *     int byteLength;
+ *     byte[] bytes = new byte[1024];
+ *     while ((byteLength = inputStream.read(bytes)) != -1) {
+ *         System.out.println(new String(bytes, "utf-8"));
+ *     }
+ *     inputStream.close();
+ * 写入文件
+ *     OutputStream outputStream = new FileOutputStream(file);
+ *     //true：写入的方式为为 追加，false：覆盖
+ *     //OutputStream outputStream = new FileOutputStream(file, true);
+ *     //write()方法支持很多参数
+ *     outputStream.write("");
+ *     outputStream.flush();
+ *     outputStream.close();
+ * 读取一个文件，写入到另一个文件中
+ *     InputStream inputStream = new FileInputStream(new File(filePath));
+ *     OutputStream outputStream = new FileOutputStream(new File(filePath));
+ *     int byteLength;
+ *     byte[] bytes = new byte[1024];
+ *     while ((byteLength = inputStream.read(bytes)) != -1) {
+ *         outputStream.write(bytes, 0, byteLength);
+ *     }
+ *     outputStream.flush();
+ *     outputStream.close();
+ *     inputStream.close();
  * @author rone
  */
 public class FileDemo {
