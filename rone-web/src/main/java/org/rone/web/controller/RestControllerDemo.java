@@ -105,4 +105,11 @@ public class RestControllerDemo {
         logger.info("filter -> interceptor -> advice -> aspect 示例, user:{}", user);
         return Result.success();
     }
+
+    @RequestMapping(value = "/jdbcTemplateDemo", method = RequestMethod.POST)
+    @ApiOperation(value = "jdbcTemplate示例")
+    public Result jdbcTemplateDemo() {
+        roneService.jdbcTemplateDemo();
+        return Result.success("详见日志输出");
+    }
 }

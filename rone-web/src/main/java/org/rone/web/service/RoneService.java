@@ -2,6 +2,7 @@ package org.rone.web.service;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
+import org.rone.web.dao.JdbcTemplateDemoDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,9 +32,11 @@ public class RoneService {
     private static String RONE;
 
     private final Environment environment;
+    private final JdbcTemplateDemoDao jdbcTemplateDemoDao;
 
-    public RoneService(Environment environment) {
+    public RoneService(Environment environment, JdbcTemplateDemoDao jdbcTemplateDemoDao) {
         this.environment = environment;
+        this.jdbcTemplateDemoDao = jdbcTemplateDemoDao;
     }
 
     public void initValue() {
@@ -227,5 +230,9 @@ public class RoneService {
         }
         Image image = Image.getInstance(data);
         return image;
+    }
+
+    public void jdbcTemplateDemo() {
+        jdbcTemplateDemoDao.demo();
     }
 }
