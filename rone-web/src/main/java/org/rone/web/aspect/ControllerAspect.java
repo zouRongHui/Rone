@@ -20,6 +20,7 @@ import java.util.UUID;
 
 /**
  * Spring AOP示例
+ * 当有多个切面时，使用@Order 来设置优先级，值越小越先执行;
  * 执行前后顺序为：filter -> interceptor -> advice -> aspect
  * @author rone
  */
@@ -75,6 +76,14 @@ public class ControllerAspect {
      */
     private ThreadLocal<Long> startTime = new ThreadLocal<>();
 
+    /**
+     * @Before 表示在目标方法执行之前执行
+     * @After 表示后置通知: 在方法执行之后执行的代码. 无论是否抛出异常.
+     * @AfterReturning 返回通知，需要在注解中表明接受的返回对象名；
+     * @AfterThrowing 异常通知，产生异常触发。需要表明异常对象名；
+     * @Around 环绕通知，等同于代理者模式。包含其他四中类型的通知。
+     * @param joinPoint
+     */
     @Before(value = POINT_CUT)
     public void before(JoinPoint joinPoint) {
         // 执行前后顺序为：filter -> advice -> aspect
@@ -103,12 +112,17 @@ public class ControllerAspect {
     @Around(POINT_CUT)
     public Object aroundMethod(ProceedingJoinPoint joinPoint) {
         try {
-            return joinPoint.proceed();
+            // 此处相当于 @Before 前置通知
+            Object result = joinPoint.proceed();
+            // 此处相当于 @AfterReturning 返回通知
+            return result;
         } catch (Throwable e) {
+            // 此处相当于@AfterThrowing 异常通知
             // 对异常的返回做统一处理
             logger.error(e.getMessage(), e);
             return Result.fault(e.getMessage());
         }
+        // 此处相当于 @After 后置通知
     }
 
     /**
