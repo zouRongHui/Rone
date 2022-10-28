@@ -1,0 +1,72 @@
+@Controller 修饰类，将该类标识为Handler；
+
+@RestController 修饰类，该类下的请求都是REST风格的请求；
+
+@RequestMapping
+    修饰类时，其value值表明该类的只能处理该 /value值/* 的请求；
+    修饰方法时：
+        value：表明该方法具体处理的请求，当只有该属性时可省略 value= ，支持多指使用{}；
+        method：表明处理哪些method的请求，例如RequestMethod.POST、RequestMethod.GET，支持多指使用{}；
+        params：指定request中必须包含某些参数值是，才让该方法处理；
+        headers：指定request中必须包含某些指定的header值，才能让该方法处理请求；
+        consumes：表明请求的提交类型，例如application/json、text/html；
+        produces：指定返回的内容类型，仅当request请求头中的(Accept)类型中包含该指定类型才返回；
+    value：
+        ①.支持Ant风格的匹配符，？(单个字符)、*(任意字符)、**(多层路径)；
+        ②.支持占位符，可在处理方法的参数列表中使用@PathVariable 将占位符参数绑定到参数上
+            eg.
+            @RequestMapping("/testPathVariable/{p}")
+            public String testPathVariable(@PathVariable("p") String p) {
+                System.out.println("testPathVariable + " + p);
+                return "success";
+            }
+        ③.支持REST风格的URL(GET、POST、DELETE、PUT请求分别对应获取、新建、删除、更新操作)，
+            发送DELETE或PUT请求时需要在web.xml中配置HiddenHttpMethodFilter，
+            然后发送一个带有_method参数的POST请求参数值为DELETE或PUT,当然POST、GET也可以使用这种方法
+            eg.
+            web.xml
+            <!-- 配置org.springframework.web.filter.HiddenHttpMethodFilter
+                用于：将POST请求转为DELETE和PUT请求
+             -->
+            <filter>
+                <filter-name>HiddenHttpMethodFilter</filter-name>
+                <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+            </filter>
+            <filter-mapping>
+                <filter-name>HiddenHttpMethodFilter</filter-name>
+                <url-pattern>/*</url-pattern>
+            </filter-mapping>
+            ****************************************
+            JSP
+            <form action="rone/testREST" method="post">
+                <input type="hidden" name="_method" value="delete">
+                <input type="submit" value="REST_delete">
+            </form>
+            ****************************************
+            handler 注意：在tomcat8版本之上，方法的返回需要进行重定向到下一个页面，否则会出错
+            @RequestMapping(value="/testREST", method=RequestMethod.DELETE)
+            public String testRESTDelete() {
+                System.out.println("testRESTDelete");
+                return "redirect:success";
+            }
+
+@RequestParam 用于将请求的参数映射到处理方法的参数中，
+    value：表明该参数映射的是哪个请求参数；
+    required：表明该参数书否必须，默认为true；
+    defaultValue：当指定参数请求没有传递时的缺省值：
+    eg.
+    @RequestMapping("/testRequestParam")
+    public String testRequestParam(@RequestParam("username") String username,
+            @RequestParam(value="password",required=false,defaultValue="111") int pw) {
+        System.out.println("testRequestParam username:" + username + " , password:" + pw);
+        return "success";
+    }
+
+@RequestBody 使用在处理方法的参数上，请求体映射为具体对象
+    使用时需要设置headers中的Content-Type为application/json，在body中填写相应的Json
+
+@Configuration  表示该类为配置类
+
+@Aspect 表示该类为AOP切面处理类
+
+@Component  表示该类交由springIOC管理其生命周期

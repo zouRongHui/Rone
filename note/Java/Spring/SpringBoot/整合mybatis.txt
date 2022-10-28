@@ -1,0 +1,32 @@
+
+●. pom.xml
+    <dependency>
+        <groupId>org.mybatis.spring.boot</groupId>
+        <artifactId>mybatis-spring-boot-starter</artifactId>
+    </dependency>
+
+●. application.yml
+    # mybatis的相关配置
+    mybatis:
+      # mapper配置文件，使用xml形式的映射语句的情况下该配置必要
+      mapper-locations: classpath:mapper/*.xml
+      # 指定映射的包名
+      type-aliases-package: org.rone.web.model.entity
+      configuration:
+        # 开启驼峰命名
+        map-underscore-to-camel-case: true
+
+●. 注解的形式，步骤2中可不配置mapper-locations
+    @Mapper
+    public interface UserDaoSecond {
+        @Select("select user_no,user_name,user_explain from user where user_no = #{userNo}")
+        User getUserByNo(@Param("userNo") String userNo);
+    }
+
+●. 配置文件的形式，步骤2中可不配置type-aliases-package
+    配置文件详见：UserDao.xml
+    dao层代码
+        @Mapper
+        public interface UserDao {
+            User queryById(String userNo);
+        }

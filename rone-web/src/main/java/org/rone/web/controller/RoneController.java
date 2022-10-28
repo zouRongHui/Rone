@@ -22,6 +22,18 @@ import java.util.Map;
  * 传统的spring mvc项目请查看 https://github.com/zouRongHui/program_old/blob/master/spring/src/main/resources/springmvc.xml
  * @Controller  表明这是个接口类
  * @RequestMapping("/rone") 标注该接口类下所有接口地址的父节点路径
+ * springMVC具体接收到一个请求的处理流程：
+ *     1).前端发送请求到DispatcherServlet前端控制器；
+ *     2).DispatcherServlet调用HandlerMapping处理器映射器，去查找相应的Handler（可根据xml配置、注解查找）；
+ *     3).HandlerMapping返回返回一个HandlerExecutionChain对象(包含一个Handler处理器和多个HandlerIntercepter处理器拦截器）给DispatcherServlet；
+ *     4).DispatcherServlet调用HandlerAdapter处理配适器，去执行相应的Handler；
+ *     5).HandlerAdapter调用具体的Handler；
+ *     6).Handler处理完后返回一个ModelAndView视图模型给HandlerAdapter；
+ *     7).HandlerAdapter返回ModelAndView给DispatcherServlet；
+ *     8).DispatcherServlet调用ViewResolver视图解析器，去解析具体的视图；
+ *     9).ViewResolver返回具体的View给DispatcherServlet；
+ *     10).DispatcherServlet渲染View，填充需要的数据；
+ *     11).DispatcherServlet响应客户。
  * @author rone
  */
 @Controller

@@ -31,6 +31,7 @@ import java.util.List;
  *      eg: readOnly=true
  *  5.timeout(单位秒) 用来表明事务的最长执行时间，超时就会强制回滚；
  *      eg: timeout=3
+ * 手动回滚事务 org.springframework.transaction.interceptor.TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
  * @author rone
  */
 @Service
