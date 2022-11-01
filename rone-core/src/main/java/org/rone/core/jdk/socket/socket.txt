@@ -1,0 +1,15 @@
+
+●.Socket
+    服务端在某个线程中启动开启ServerSocket服务，通过ServerSocket.accept()来获取客户端的请求并处理，一般会用另外一个线程池来处理具体的业务流程不阻塞ServerSocket线程来获取新的请求。
+   	ServerSocket接受新的请求后会存放一个先进先出的队列中(存入队列中后即认为连接成功)，然后通过accept()来具体的处理，若处理不及时导致队列满了，此时再由客户端发来请求会直接拒绝连接。
+   	socket服务端和客户端，单端关闭了socket另一边并不知晓。
+
+●.坑
+    ●.客户端输入流输出了数据后，若不主动关闭的话，服务端的输入流read()读取数据时不会返回-1会一直死循环中(直到客户端超时关闭连接)。若客户端主动关闭输出流会导致socket连接也被关闭了。
+        Java的socket是一个全双工套接字，任何的输入流或输出流的close()都会造成Socket关闭。
+        socket.shutdownOutput()方法关闭套接字的输出流，使用socket.shutdownInput()方法单独关闭套接字的输入流
+        总结	https://blog.csdn.net/ZHWang102107/article/details/88884449
+            在客户端或者服务端通过socket.shutdownOutput()都是单向关闭的，即关闭客户端的输出流并不会关闭服务端的输出流，所以是一种单方向的关闭流。
+            通过socket.shutdownOutput()关闭输出流，但socket仍然是连接状态，连接并未关闭。
+            如果直接关闭输入或者输出流，即：in.close()或者out.close()，会直接关闭socket。
+

@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
- * 反射机制
+ * 反射机制，在程序运行时(动态)，通过资源文件、外部输入等方式灵活的去对类进行使用。
  * @author rone
  */
 public class ReflectionDemo {
