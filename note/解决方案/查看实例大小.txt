@@ -1,0 +1,16 @@
+
+com.carrotsearch.sizeof.RamUsageEstimator
+
+<dependency>
+    <groupId>com.carrotsearch</groupId>
+    <artifactId>java-sizeof</artifactId>
+    <version>0.0.5</version>
+</dependency>
+
+
+// 计算指定对象及其引用树上所有的对象的综合大小，单位字节
+System.out.println(RamUsageEstimator.sizeOf(new Object()));
+// 计算对象本身在堆中的大小，单位字节
+System.out.println(RamUsageEstimator.shallowSizeOf(new Object()));
+// 计算指定对象及其引用树上所有的对象的综合大小，返回一个可读的值，16 bytes
+System.out.println(RamUsageEstimator.humanSizeOf(new Object()));
