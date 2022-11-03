@@ -1,0 +1,84 @@
+
+●.线上如遇到 JVM 内存溢出，可以分以下几步排查
+	jmap -heap 查看是否内存分配过小
+	jmap -histo 查看是否有明显的对象分配过多且没有释放情况
+	jmap -dump 导出 JVM 当前内存快照，使用 JDK 自带或 MAT 等工具分析快照
+
+	查看 JVM 内存分布 jmap -heap 进程id
+		jmap -heap 15162
+		Attaching to process ID 15162, please wait...
+		Debugger attached successfully.
+		Server compiler detected.
+		JVM version is 25.161-b12
+
+		using thread-local object allocation.
+		Mark Sweep Compact GC
+
+		Heap Configuration:
+		   MinHeapFreeRatio         = 40 # 最小堆使用比例
+		   MaxHeapFreeRatio         = 70 # 最大堆可用比例
+		   MaxHeapSize              = 482344960 (460.0MB) # 最大堆空间大小
+		   NewSize                  = 10485760 (10.0MB) # 新生代分配大小
+		   MaxNewSize               = 160759808 (153.3125MB) # 最大新生代可分配大小
+		   OldSize                  = 20971520 (20.0MB) # 老年代大小
+		   NewRatio                 = 2 # 新生代比例
+		   SurvivorRatio            = 8 # 新生代与 Survivor 比例
+		   MetaspaceSize            = 21807104 (20.796875MB) # 元空间大小
+		   CompressedClassSpaceSize = 1073741824 (1024.0MB) # Compressed Class Space 空间大小限制
+		   MaxMetaspaceSize         = 17592186044415 MB # 最大元空间大小
+		   G1HeapRegionSize         = 0 (0.0MB) # G1 单个 Region 大小
+
+		Heap Usage:  # 堆使用情况
+		New Generation (Eden + 1 Survivor Space): # 新生代
+		   capacity = 9502720 (9.0625MB) # 新生代总容量
+		   used     = 4995320 (4.763908386230469MB) # 新生代已使用
+		   free     = 4507400 (4.298591613769531MB) # 新生代剩余容量
+		   52.56726495150862% used # 新生代使用占比
+		Eden Space:
+		   capacity = 8454144 (8.0625MB) # Eden 区总容量
+		   used     = 4029752 (3.8430709838867188MB) # Eden 区已使用
+		   free     = 4424392 (4.219429016113281MB) # Eden 区剩余容量
+		   47.665996699370154% used  # Eden 区使用占比
+		From Space: # 其中一个 Survivor 区的内存分布
+		   capacity = 1048576 (1.0MB)
+		   used     = 965568 (0.92083740234375MB)
+		   free     = 83008 (0.07916259765625MB)
+		   92.083740234375% used
+		To Space: # 另一个 Survivor 区的内存分布
+		   capacity = 1048576 (1.0MB)
+		   used     = 0 (0.0MB)
+		   free     = 1048576 (1.0MB)
+		   0.0% used
+		tenured generation: # 老年代
+		   capacity = 20971520 (20.0MB)
+		   used     = 10611384 (10.119804382324219MB)
+		   free     = 10360136 (9.880195617675781MB)
+		   50.599021911621094% used
+
+		10730 interned Strings occupying 906232 bytes.
+	JVM 运行时查看最耗费资源的对象，jmap -histo:live 15162 | more
+		执行此命令，JVM 会先触发 GC，再统计信息
+		其中 "[" 代表数组，例如 "[C" 代表 Char 数组，"[B" 代表 Byte 数组
+	jmap -dump:file=[文件路径] [pid]	在 JVM 运行时导出 Dump 文件
+		jmap -dump:file=./jvmdump.hprof 15162
+
+●.jstack命令主要用来查看Java线程的调用堆栈的，可以用来分析线程问题（如死锁）
+    语法：jstack pid > 指定的输出文件
+    内容解析：
+        locked <地址> 目标：使用synchronized申请对象锁成功,监视器的拥有者。
+        waiting to lock <地址> 目标：使用synchronized申请对象锁未成功,在迚入区等待。
+        waiting on <地址> 目标：使用synchronized申请对象锁成功后,释放锁幵在等待区等待。
+        parking to wait for <地址> 目标
+    线程状态：jstack命令查看线程堆栈信息时可能会看到的线程的几种状态：
+        NEW,未启动的。不会出现在Dump中。
+        RUNNABLE,在虚拟机内执行的。运行中状态，可能里面还能看到locked字样，表明它获得了某把锁。
+        BLOCKED,受阻塞并等待监视器锁。被某个锁(synchronizers)給block住了。
+        WATING,无限期等待另一个线程执行特定操作。等待某个condition或monitor发生，一般停留在park(), wait(), sleep(),join() 等语句里。
+        TIMED_WATING,有时限的等待另一个线程的特定操作。和WAITING的区别是wait() 等语句加上了时间限制 wait(timeout)。
+        TERMINATED,已退出的。
+    线程状态产生的原因
+        runnable:状态一般为RUNNABLE。
+        in Object.wait():等待区等待,状态为WAITING或TIMED_WAITING。
+        waiting for monitor entry:进入区等待,状态为BLOCKED。
+        waiting on condition:等待区等待、被park。
+        sleeping:休眠的线程,调用了Thread.sleep()。
