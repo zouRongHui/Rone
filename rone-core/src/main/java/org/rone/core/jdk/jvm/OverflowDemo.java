@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 内存溢出
+ * 调试时把分配的内存设置较小即可很快体现出来
  * @author rone
  */
 public class OverflowDemo {
