@@ -1,0 +1,15 @@
+
+●. 登录
+    mysql -u root -p
+●. 显示数据库列表
+	show databases;
+●. 切换至某个数据库
+	use 数据库名;
+●. 显示库中的数据表
+	show tables; 
+●. 显示数据表的结构
+	describe 数据表名; 
+●. 导入sql文件
+	1).选中数据库：use 数据库名;
+	2).设置编码格式：set names utf8;
+	3).导入文件：source  XXX\xxx.sql;

@@ -1,0 +1,7 @@
+●. 参考：http://doc.redisfans.com
+
+●. 远程连接
+    Linux：  redis-cli -h IP地址 -p 端口号
+    Windows：redis-cli.exe -h IP地址 -p 端口号
+
+●. KEYS pattern 查找所有符合给定模式 pattern 的 key

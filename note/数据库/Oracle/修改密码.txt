@@ -1,0 +1,8 @@
+//Linux切换到Oracle用户，直接使用su oracle登录由于登录环境并未改变，会导致一下的命令系统无法识别
+su - oracle
+//登录但不连接到数据库
+sqlplus /nolog
+//操作系统验证登录
+conn / as sysdba
+//修改用户口令 格式 alter user 用户名 identified by 新密码;
+alter user rone identified by rone;

@@ -1,0 +1,3 @@
+
+●. 在Oracle Database中，VARCHAR2字段类型，最大值为4000，SQL参考手册中也明确指出VARCHAR2的最大大小为4000
+

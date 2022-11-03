@@ -1,0 +1,7 @@
+
+●. SHOW FULL PROCESSLIST;
+	查看mysql各个线程的执行状态
+	
+●. MySQL的查询缓存其实就是key-value形式，key为sql语句、数据库、版本协议等等的hash值，value为结果，
+	且该缓存的维护机制为一旦数据表发生变动该数据表的所有的缓存立即清空，
+	还有因为key值为hash值，所有语句必须一模一样才能击中缓存

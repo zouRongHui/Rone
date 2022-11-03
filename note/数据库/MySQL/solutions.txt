@@ -1,0 +1,37 @@
+
+●.表之间的数据转移
+    INSERT INTO 目标表 (字段1, 字段2, ...) SELECT 字段1, 字段2, ... FROM 来源表 ;
+
+●.排序时遇到空值
+    默认情况下，MySQL会认为NULL值比其他类型的数据小
+        在处理null值的数据排序时，可以借助isnull()函数来实现预期效果
+    eg.
+        order by isnull(i.order.sendTime), i.order.sendTime
+    效果为
+        i.order.sendTime忽略null值从小到大排序，null值数据在最后
+
+●.中文排序
+    ORDER BY CONVERT(属性名 USING gbk)
+
+●.自定义排序
+    在mysql order by排序中，大多数情况下仅使用默认排序规则就够了：字符串按字典顺序，数字按大小等等。
+    可有时候，某个字段是有自身业务含义的，比如 type（1，2，3）可能表示早/中/晚，
+    如果我想把中午信息靠前，这时候普通的升降序排列就不好办了。
+    field(column,value1,value2,value3,……)是解决这种问题的利器。
+    column代表要排序的列，value1…… 代表自定义的顺序：
+        order by field(type,2,3,1)就是按2在前，3次之，1最后的顺序来排。
+
+●.创建table时要避免所使用的数据库的关键字和保留字
+
+●.清空表数据
+    删除表：    drop table 表名称                         eg: drop table  dbo.Sys_Test
+    清空表数据：truncate table 表名称                     eg: truncate  table dbo.Sys_Test
+    删除表数据：delete from 表名称 where 列名称 = 值      eg: delete from dbo.Sys_Test where test='test'
+
+●.多表间的更新
+    语法 update user t1, user t2 set t1.user_explain = t2.user_explain where t1.user_no = '1' and t2.user_no='2';
+
+●.事务
+    start transaction;
+    update user t1 set t1.user_explain = t2.user_explain, t2.user_name=t1.user_name where t1.user_no = '1' and t2.user_no='2';
+    commit;

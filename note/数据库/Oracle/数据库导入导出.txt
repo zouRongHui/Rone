@@ -1,0 +1,13 @@
+
+●.导出
+exp 用户名/密码 file=路径/备份文件名.dmp full=y
+tip：
+    question：Oracle 11 导出时，可能会产生有些表缺失，原因是：Oracle11为了节省空间不会将无数据的表导出来。
+    solution：登录管理员，将deferred_segment_creation参数修改为false，alter system set deferred_segment_creation=false;
+        查看 show parameter deferred_segment_creation;隐患：该修改只对新建的表的生效。
+    solution2：https://www.jb51.net/article/43894.htm，未验证
+
+
+●.导入，若导入的用户和导出的用户为同一个用户则后面的【fromuser=源用户名 touser=目标用户名】可省略
+imp 用户名/密码 file=路径/备份文件名.dmp fromuser=源用户名 touser=目标用户名
+

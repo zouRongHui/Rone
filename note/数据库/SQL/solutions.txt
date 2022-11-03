@@ -1,0 +1,10 @@
+
+●.需要对多个字段使用 IN 时，将它们汇总到一处。
+    SELECT *
+      FROM Addresses1 A1
+     WHERE id || state || city
+     IN (SELECT id || state|| city
+           FROM Addresses2 A2);
+
+●.联合主键作为条件
+    select * from table where (col1,col2) = ('001','aaa');

@@ -1,0 +1,6 @@
+
+●.Linux 上启动mysql提示
+    Starting MySQL.2020-06-04T13:43:24.032814Z mysqld_safe Directory '/var/lib/mysql' for UNIX socket file don't exists.
+    The server quit without updating PID file (/usr/local/mysql[FAILED]bp178t3hp8rp8h2sgn75Z.pid).
+    问题应该是没有该 /var/lib/mysql 文件夹，mysql没有权限或者无忧去自动创建该文件夹，导致socket文件无法创建导致的无法启动
+    解决方案将缺失的文件补上冰配置好相应的权限

@@ -1,0 +1,54 @@
+﻿●.语法
+LEFT JOIN 关键字会从左表 (Persons) 那里返回所有的行，即使在右表 (Orders) 中没有匹配的行。
+	eg.
+	"Persons" 表：
+		Id_P 	LastName 	FirstName 	Address 		City
+		1 		Adams 		John 		Oxford Street 	London
+		2 		Bush 		George 		Fifth Avenue 	New York
+		3 		Carter 		Thomas 		Changan Street 	Beijing
+	"Orders" 表：
+		Id_O 	OrderNo 	Id_P
+		1 		77895 		3
+		2 		44678 		3
+		3 		22456 		1
+		4 		24562 		1
+		5 		34764 		65
+	SELECT * FROM Persons	LEFT JOIN Orders ON Persons.Id_P=Orders.Id_P ORDER BY Persons.LastName
+	结果集：
+		Id_P	LastName	FirstName	Address			City		Id_O	OrderNo	Id_P
+		1		Adams		John		Oxford Street	London		3		22456	1
+		1		Adams		John		Oxford Street	London		4		24562	1
+		2		Bush		George		Fifth Avenue	New York					
+		3		Carter		Thomas		Changan Street	Beijing		1		77895	3
+		3		Carter		Thomas		Changan Street	Beijing		2		44678	3
+		
+●.当右表有限定条件时，右表必须要有匹配行
+	eg.数据表同上
+		SELECT * FROM Persons LEFT JOIN Orders ON Persons.Id_P=Orders.Id_P where Orders.Id_O>0 ORDER BY Persons.LastName
+	Result:
+		Id_P	LastName	FirstName	Address			City		Id_O	OrderNo	Id_P
+		1		Adams		John		Oxford Street	London		3		22456	1
+		1		Adams		John		Oxford Street	London		4		24562	1
+		3		Carter		Thomas		Changan Street	Beijing		1		77895	3
+		3		Carter		Thomas		Changan Street	Beijing		2		44678	3
+	Reason：
+		LEFT JOIN 的实质就是将 LEFT JOIN 前后的两张表组合成一张大表，
+		后面的where条件实际是对这张大表做条件查询，
+		若此时条件中有来自表2的条件，此时筛选之后大表中表2数据为null的数据就被过滤掉了
+
+●.tips
+	1). 在left join时，若有条件限制，请尽量在left join之前将数据筛选好，这样的话在对数据筛选的时候是对两张小一点的数据表做的筛选，而不是一张大的数据表做筛选。
+	
+●.坑
+	1). 表1和表2按照关联条件如果唯一即表1表2一一对应，不存在一个表1数据对应多条表2数据的情况下，联合查询的总结果数为表1的数据量
+		如果存在一条表1对应多个表2数据，则总数据量肯定就大于表1数据总量
+		实例：
+			表1:255072条数据，表2:255072条数据
+			两者关联查询，预计结果数：255072，实际数据量为260676条
+			出错原因：实际的关联条件为4个，在4个关联条件下表1表2一一对应，而在取数语句中只写了两个关联条件，导致多条表1数据多次匹配从而使得数据量变大了。
+			表1按照4个关联条件分组都能做到唯一，表1按照两个关联条件分组情况如下：
+				重复5次的数据量为2条	多出了 5 * 4 * 2 = 40
+				重复4次的数据量为13条	多出了 4 * 3 * 13 = 156
+				重复3次的数据量为103条	多出了 3 * 2 * 103 = 618
+				重复2次的数据量为2395条	多出了 2 * 1 * 2395 = 4790
+				40 + 156 + 618 + 4790 + 255072(准确的数据量) = 260676(实际数据量)
