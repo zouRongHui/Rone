@@ -1,0 +1,30 @@
+●.下载、解压、移动到安装目录(我是放在/opt/下)
+	wget http://download.redis.io/releases/redis-5.0.7.tar.gz
+	tar -zxvf redis-5.0.7.tar.gz
+	
+●.编译(在解压后Redis目录下)、进入src路径下进行安装
+	**/redis-5.0.7下 make
+	**/redis-5.0.7/src下 make install
+	
+●.在src路径下启动服务redis-server，已成功安装
+	**/redis-5.0.7/src下 redis-server
+
+●.修改配置，**/redis-5.0.7/redis.conf
+	解除ip绑定,让外网用户也能访问
+		注释掉 bind 127.0.0.1
+	修改设置为后台启动(守护程序)
+		daemonize yes
+	增加设置密码
+		requirepass 密码
+	修改设置日志文件路径
+		logfile "日志文件路径"
+
+●.指定配置文件启动,，指定到上一步修改的配置文件
+	**/redis-5.0.7/src下 redis-server ../redis.conf
+
+●.关闭服务
+	本机关闭
+		redis-cli	链接上Redis
+		shutdown [nosave|save]
+	远程关闭
+		redis-cli -h ip  -p 端口 -a 密码  shutdown
