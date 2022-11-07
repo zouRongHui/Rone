@@ -110,7 +110,17 @@ function getDoublePieOption(titleText, legendData, seriesName1, seriesData1, ser
                 center: ['25%', '50%'],//饼图圆心位置
                 label: {//图形上的文本标签
                     show: true,//是否展示
-                    formatter: '{b} : {c} ({d}%)'//展示的格式，{a}（系列名称），{b}（数据项名称），{c}（数值）, {d}（百分比）
+                    //自定义显示文本
+                    // formatter: function(obj) {
+                    //     var totalCount = 0;
+                    //     for (var i = 0; i < option.series[0].data.length; i++) {
+                    //         totalCount += option.series[0].data[i].value;
+                    //     }
+                    //     return obj.name + " "
+                    //         + ((Number)(obj.value/totalCount*100)).toFixed(0) + "%";
+                    // }
+                    //也可使用其自带的字符串模板, {a}（系列名称），{b}（数据项名称），{c}（数值）, {d}（百分比）
+                    formatter: '{b} : {c} ({d}%)'
                 },
                 data: seriesData1
             },
@@ -259,6 +269,14 @@ function getSimpleBarOption(titleText, axisData, seriesName, seriesType, seriesD
                 type: 'category',//类目轴
                 boundaryGap:'true',//default:true此时x轴的刻度作为分隔符，数据在两刻度之间展示，false时数据在刻度线出展示
                 data: axisData//类目轴数据
+                // axisLabel: {
+                //     //设置文本旋转角度 -90~90
+                //     rotate: -30
+                //     //自定义文本格式
+                //     formatter: function(value) {
+                //         return value.split("").join("\n");
+                //     }
+                // }
             }
         ],
         yAxis: [//y轴

@@ -61,6 +61,17 @@
         seriesData.push({value:135, name:'紫色'});
         seriesData.push({value:1548, name:'黑色'});
         var option = getSimplePieOption('饼图', legendData, '分布项', seriesData);
+        // 图例legend文本自定义
+        option.legend.formatter = function(name) {
+            var target;
+            var data = option.series[0].data;
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].name == name) {
+                    target = data[i].value;
+                }
+            }
+            return '' + name + ' ' + target;
+        };
         var echart = echarts.init(document.getElementById("div_pie"));
         echart.setOption(option);
     }
