@@ -12,6 +12,10 @@ import java.util.List;
 
 /**
  * excel处理示例
+ * 坑
+ * 	●. CellStyle 单个excel有最大实例数的限制(poi-ooxml-3.13包中.xlsx中限制为64000个)
+ * 	●. 直接通过数据数组去配置单元格数据有效性的话，可选用的数据有长度限制，不能大于256个字符且包含逗号。
+ * 	    此时可通过引用已有的数据单元来实现
  * @author rone
  */
 public class ExcelDemo {

