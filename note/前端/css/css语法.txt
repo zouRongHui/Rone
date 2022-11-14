@@ -1,0 +1,86 @@
+
+●.在CSS样式中，允许覆盖
+
+●.CSS语法：选择器{ 属性1:value1; 属性2:value2; }
+
+●.<style type="text/css"> 是告诉浏览器这里面的文本内容text要当作CSS来解析
+
+●.注释方法为 /*  */
+
+●.CSS样式分类：
+	1）内联式 即写在现有HTML标签中，语法为<标签 style="属性:value"></标签>
+	2) 嵌入式 css样式必须写在<style></style>间，一般情况下写在<head></head>间
+	3）外联式 将css代码写在一个以".css"为扩展名的单独外部文件中，在html页面中一般在<head>标签中使用<link>标签将css文件连接到HTML中去，语法：<link href="cssFileName" rel="stylesheet" type="text/css" /> (rel和type属性值固定不可修改)
+	?三种方式的优先级为（相同权值）就近原则 一般为：内联式>嵌入式>外联式 (在<head>标签中由于实际开发中将外联式链接写在嵌入式前，导致嵌入式优先于外联式)
+
+●.选择器分类：
+	1）标签选择器 即html中的标签
+	2）类选择器 语法为.className{css样式代码;}
+使用方法：<span class="className1 className2">修饰内容</span>
+	3）ID选择器 语法为#idName{css样式代码;} 使用方法同类选择器
+        类选择器和ID选择器不同 1.ID选择器只能在同一html中使用一次，而类选择器无限制
+				 2.ID选择器只能为一个元素设置一个样式，而类选择器无限制
+	4）子选择器 语法为.选择器名>子元素名{css样式代码;} 使用方法同上，效果为将设置了该样式的元素的直接子元素（该子元素的同名子元素无效）添加样式
+	5）包含选择器 语法为.选择器名 子元素名{css样式代码;} 使用方法同上，效果为将设置了该样式的元素的所有同名子元素添加样式
+	6）通用选择器 *{css样式代码;} 其作用范围为html中所有标签元素
+	7）伪类选择符 a:hover{css样式代码;}(为a标签设置鼠标滑过似的样式，这只是常用的) 伪类选择符允许给html不存在的标签（标签的某种状态）设置样式
+	8）分组选择符 将以上几种选择器以，相隔可以为多个选择器添加css样式代码
+
+●.样式具有继承性，即设置了样式的元素的子元素也拥有该样式，能被子元素继承的属性为子元素与父元素相同的属性且子元素没有设置该属性的样式
+
+●.样式的权值 权值高就使用哪种css样式 标签的权值为1，类选择器权值为10，ID选择器权值为100，继承的权值最低为0.1（有的文献提出）
+	注：注意继承的权值，用 !important 为某一样式设置最高权值
+
+●.样式的层叠 在权值相同的情况下，处于后面的css样式会被应用
+
+●.文字排版：
+	字体 font-family:"Microsoft Yahei" （现在一般网页喜欢设置"Microsoft Yahei"）
+	字号 font-size:10px
+	颜色 color:red
+	粗体 font-weight:bold
+	斜体 font-style:italic
+	下划线 text-decoration:underline
+	删除线 text-decoration:line-through
+	首行缩进 p{text-indent:2em} (缩进2倍的文字大小)
+	行间距 p{line-height:2em}
+	字间距 letter-spacing:20px(中文字，英文字母) word-spacing:20px(以空格为界设置间距，一般用于英文单词)
+	对齐 text-align:center/left/right
+
+●.在CSS中，html中的标签元素答题被分为三种不同的类型：
+	块状元素 独占一行；宽，高，行高，顶底边距可设置；元素不设宽，与父元素同宽 (<div><p><form><ul>...)
+	内联(行内)元素 和别的元素同行；元素的宽，高，顶底边距不可设置；元素的宽就是其包含的内容的宽度 (<span><label><a>)
+	内联块状元素(综合优点)  和别的元素同行；元素的宽，高，行高，顶底边距可设置 (<img><input>)
+		块状->内联 display:inline    内联->块状  display:block    块状,内联->内联块状  display:inline-block
+
+●.盒子模型 一般的块状元素，padding内填充，margin外边距，border边框
+	border   属性有:width,style(dashed虚线,dotted点线,solid实线),color
+        语法:border：width style color   为单独一边设置样式:border-bottom/top/right/left:width style color
+	padding 语法:padding:20px(top) 10px(right) 15px(bottom) 30px(left);  or  padding:10px(上下) 20px(左右);
+	margin 语法同padding
+
+●.css布局模型 flow(流动),float(浮动),layer(层)
+	flow 网页的默认布局模型
+	float 根据设置的值在该行的浮动在相应位置，浮动处无法显示别的内容，空白处无影响，仍旧可以显示别的内容
+	layer 定位属性(position)三种形式 绝对定位(absolute)，相对定位(relative)，固定定位(fixed) 它通过left、right、top、bottom属性确定元素在正常文档流中的偏移位置
+		absolute 语法事例:position:absolute;left:100px;top:100px;
+		relative 相对之前的自己的偏移 但是偏移前的位置保留不动
+		fixed 固定元素在屏幕中的位置，不会因为滑动而消失，实例:一些网站的小广告
+ 		relative和absolute的组合使用，效果是相对于父元素偏移  语法:父元素设置position:relative 子元素设置position:absplute再使用top等属性设置偏移量
+
+●.颜色的表示方法: color:red/rgb(133,45,200)/#00ffff
+
+●.长度值:px，em(就是笨元素给定字体的font-size的值)，n%
+
+●.水平居中:
+	1) 行呢哦元素，在父元素中设置text-align:center
+	2) 块状定宽元素，设置左右margin值为auto
+	3) 块状不定宽元素，
+        (1)用table做框架，在该元素外加一个table(包括tbody，tr，td)，为table设置左右margin居中
+        (2)该块元素wei行内元素，设置display:inline,在设置text-align
+        (3)通过给父元素设置 float，然后给父元素设置 position:relative 和 left:50%，
+            子元素设置 position:relative 和 left:-50% 来实现水平居中
+
+17.垂直居中:
+	1) 父元素高度确定的单行文本， 设置父元素的height和line-height高度一致
+	2) 父元素高度确定的多行文本， (1)插入table，同时设置<td>的独有vertical-align:middle(默认值为middle，一般无需显性设置) (2)设置块状元素的display:table-cell(激活vertical-align属性) vertical-align:middle
+

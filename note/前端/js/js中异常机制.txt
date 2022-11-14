@@ -1,0 +1,10 @@
+
+●. 手动抛出异常
+	throw new Error("legendData的长度与seriesDatas的长度不同!");
+	
+●. 捕获处理异常
+	try {
+        throw new Error("legendData的长度与seriesDatas的长度不同!");
+    } catch (e) {
+        console.log(e);
+    }

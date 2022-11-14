@@ -1,0 +1,30 @@
+
+●. 创建Json对象
+    eg.
+    var json = {};//空json对象
+    //var json = {name: "我"};//{name: "我"}
+    json.name = "星星";//给json对象设置值,此时json数据为 {name: "星星"}
+    var childs = [];//一个数组
+    childs.push("hello");//往数组中添加一个值
+    json.childs = childs;//添加一个数组，{name: "星星", childs: ["hello"]}
+    json.next = {name: '嘿嘿', sex: 'man'};//添加一个子json，{name: "星星", childs: Array(1), next: {name: "嘿嘿", sex: "man"}}
+
+●. json <-> JS
+    eg.
+    var txt = '{"firstName":"Thomas","lastName":"Carter"}';
+    var obj = JSON.parse(txt);
+    console.log(obj.firstName);
+    console.log(obj.lastName);
+    console.log(JSON.stringify(obj););//{"firstName":"Thomas","lastName":"Carter"}
+    
+●. 特殊key值操作
+    var txt = "{'0':'hello'}";
+    var obj = JSON.parse(txt);
+    //console.log(obj.0);会报错
+    console.log(obj["0"]);
+
+●. json遍历
+    for (var key in json) {
+        var value = json[key];
+    }
+    

@@ -1,0 +1,54 @@
+标签
+●. <em></em> 斜体；
+●. <strong></strong> 加粗；
+●. <hx></hx> 标题标签；
+●. <span></span> 设置单独的样式 首先要定义该标签设置的样式，然后再对需要修饰的内容进行修饰。；
+●. <q></q> 设置短文本引用（给修饰内容加上双引号）；
+●. <blockquote></blockquote> 设置长文本引用，效果为：另起一段，段落前后有缩进；
+●. <br/> 回车换行；
+●. &nbsp; 空格；
+●. <hr/> 水平线；
+●. <address></address> 地址信息（单独段落，斜体）；
+●. <code></code> 添加单行代码；
+●. <pre></pre> 预显示格式（空格，换行，保留），常用来展示多行代码；
+●. <ul><li>无序列表内容</li></ul> 无序列表显示，<ul>定义序列表，<li>列表内容；
+●. <ol><li>有序列表内容</li></ol> 有序列表显示；
+●. <div></div> 逻辑容器，用于页面排版；
+    id 属性唯一标识<div>容器
+●. <table> 中嵌套使用<tbody></tbody>该表格全部下载好才会显示，<th></th>头部单元格默认粗体居中；
+    <td rowspan="x">   //该单元格横跨x行
+    <td colspan="x">  //该单元格横跨列
+    summary 属性为表格摘要，一般的浏览器不会产生视觉变化，语义化增加表格可读性
+    <caption>表格标题</caption>
+●. <a href="目标URL" title="鼠标划过时显示文字"></a> 超链接；
+    target 属性为连接打开方式
+    href="mailto:目标邮箱;目标二？cc=抄送一;抄送二&bcc=密件抄送;密件抄送二&subject=主题&body=邮件内容"
+●. <img src="图片地址" alt="下载失败时替换文本" title="提示文本"/>
+●. <form></form> 表单
+    文本输入框 <input type="text/password" name="名称" value="提示" />
+    文本域 <textarea rows="行数" cols="列数">默认值</textarea>
+    单选，复选 <input type="radio单选/checkbox复选" value="提交到后台的值" name="名称" checked="checked该选项默认选取" /> （单选name必须相同）
+    下拉选框 <select>
+            <option value="提交到后台的值">选项文本</option>
+            <option value="提交到后台的值">选项文本</option>
+            <option value="提交到后台的值" selected="selected默认选中">选项文本</option>
+         </select>
+            multiple="multiple" 属性定义为下拉多选
+    提交按钮 <input type="submit" value="按钮文字"/>
+    重置按钮 <input type="reset" value"按钮文字" />
+●. <label for="控件id名称">文本</label>  (for属性将label和控件相关联，点击label也就是点击与之相关联的控件)
+●. <datalist> 标签定义选项列表。请与 input 元素配合使用该元素，来定义 input 可能的值。
+    datalist 及其选项不会被显示出来，它仅仅是合法的输入值列表。
+    请使用 input 元素的 list 属性来绑定 datalist
+    eg.
+    下面是一个 input 元素，datalist 中描述了其可能的值：
+        <input id="myCar" list="cars" />
+        <datalist id="cars">
+          <option value="BMW">
+          <option value="Ford">
+          <option value="Volvo">
+        </datalist>
+
+事件
+●. onchange事件在内容改变（两次内容有可能相等）且失去焦点时触发;
+●. oninput事件是IE之外的大多数浏览器支持的事件，在value改变时实时触发，但是通过js改变value时不会触发.

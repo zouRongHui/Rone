@@ -1,0 +1,119 @@
+
+●. JS不支持方法重载
+
+●.生命周期
+    第一，JavaScript中的方法内部定义变量的时候如果没有加var，就是全局变量；否则为局部变量。
+    第二，当fun()没有执行的时候，方法内部的全局变量是不会声明并且定义的。
+
+●.javascript代码插在<script type="text/javasript"></script>之间
+
+●.javascript代码也可独立编写，然后再html中引用，类似css 语法：.js文件，<script src="fileName.js"></script>
+
+●.javascript代码写在<head></head>中网页初始化时就执行，写在<body></body>中在网页读取到该页面时才执行
+
+●.声明变量 语法 var 变量名   先声明再赋值使用
+  声明数组 语法 var 数组名 = new Array()  可以指定长度，但是所有的数组都是变长的
+
+●.常用的方法
+    document.write() 输出
+    alert(str1) 警告对话框
+    confirm(str1) 确认对话框，返回Boolean值
+    prompt(str1，str2) 提问对话框，点击确定按钮，文本框中的内容将作为函数返回值，点击取消按钮，将返回null
+    window.open([URL],[窗口名],[参数]) URL：可选参数，在窗口中要显示网页的网址或路径，如果省略这个参数或者它的值是空字符串那么窗口就不显示任何文档。窗口名称： _blank：在新窗口显示，_self：在当前窗口显示，_top：框架网页中在上部窗口中显示。参数字符串：设置窗口参数，各参数用逗号隔开。
+    [窗口对象].close() 关闭指定窗体
+    window.close() 关闭本窗体
+
+●.DOM   节点(nodeName,nodeValue,nodeType)
+    getElementById("id")  获取元素，返回null或[object HTMLParagraphElement]，若需要对获取的对象进行操作，需通过其属性或方法
+    getElementsByName(“name”) 获取对象集合
+    getElementsByTagName(“tagname”) 获取指定的标签名的节点集合
+    (object为上面获取的节点)
+    object.innerHTML  获取或替换HTML中的内容
+    object.style.属性  修改HTML样式
+    object.style.display = "none"(隐藏)/"block"(块级显示)
+    object.className  获取和修改class属性
+    object.getAttribute(“属性名”) 获取属性值
+    object.setAttribute(name,value) 设置属性值
+    object.childNodes 获取该节点的子节点集合
+    object.firstChild object.lastChild 获取指定的子节点
+    object.parentNode 获取父节点
+    object.nextSibling object.previousSibling 获取上一个/下一个兄弟节点 nodeType为1的是元素节点
+    object.appendChild(新的节点) 在该节点的子节点列的最后添加新的节点
+    object.insertBefore(newnode, node) 在该节点的子节点node前插入newnode节点
+    object.removeChild(node) 删除该节点指定的子节点，返回删除的节点
+    object.replaceChild(newnode,oldnode) 用newnode替换该节点的子节点oldnode，返回oldnode的引用
+    object.createElement(tagname) 创建一个元素节点，配合增改
+    object.createTextNode(string) 创建一个文本节点
+
+
+●.事件
+    onclick 鼠标单击 通常与按钮一起使用
+    onmouseover 鼠标经过
+    onmouseout 鼠标移开
+    onchange 文本框内容改变
+    onselect 文本框内容被选中
+    onfocus 光标聚集
+    onblur 光标离开
+    onload 网页导入
+    onunload 关闭网页
+
+●.内置对象
+    Date 日期对象 常用方法
+        get/setDate() 几号
+        get/setFullYear() 年份，用四位数表示
+        get/setDay() 星期,0:周日..6:周六
+        get/setYear 年份
+        get/setMonth() 月份，0:一月...11:十二月
+        get/setHours() 小时，24小时制
+        get/setMinutes() 分钟数
+        get/setSeconds() 秒钟数
+        get/setTime() 时间(单位为毫秒),计算从1970.1.1到日期所指日期的毫秒数
+            String 字符串对象
+        toLower/UpperCase() 转换大小写
+        charAt(index) 返回下标为index的字符
+        indexOf(str,index) 返回指定的字符串首次出现的下标若没有返回-1，str需要检索的          字符串，index检索的起始位置，如果省略则从0开始检索
+
+        split(str,num) 分割字符串返回数组，str指定按sm分割，num分割后数组的长度，            若省略则无限制长度
+        substring(star,stop) 提取字符串，返回start和stop-1之间的字符串，stop省略提取            start到结束之间，start=stop返回空，start>stop自动交换两参数
+        substr(start, length) 提取指定数目的字符串，start为-1指向字符串最后一个，-2为          倒数第二个，若start为负且绝对值大于字符串长度start为0，length省略时          从start到结尾
+        实例：<span id="ptime" style="display: inline;font-size: 11px"></span>
+            <script language="javascript">
+                 function getPTime()
+                 {
+                 var weekArray = new Array("星期天", "星期一", "星期二", "星期                                         三", "星期四", "星期五", "星期六");
+                 var week = weekArray[new Date().getDay()];
+                 document.getElementById("ptime").innerHTML=new                                             Date().toLocaleString()+" &nbsp;"+week;
+                 setTimeout(getPTime,1000);
+                 }
+                 getPTime();
+            </script>
+    Math 数学计算，无需创建，直接使用
+        ceil(x) 向上取整
+        floor(x) 向下取整
+        round(x) 四舍五入取整，x.5取偏右的
+        random() 随机获取[0,1)间的一个数
+    Array 数组对象
+        concat(arr,arr,...) 连接两个或多个数组，返回一个数组，不会影响原数组                join(a) 将数组按指定分隔符组成字符串，a指定分隔符若省略默认使用,为分隔符
+        reverse() 颠倒数组下标，改变原数组
+        slice(start，stop) 截取元素，返回一个数组，用法同string的substr()
+        sort(方法函数) 不指定方法函数按unicode码排序，方法函数具有两个参数a，b         需要返回一个说明两个值相对顺序的数字1)返回值<=-1 a在b之前.2)返回              值>=-1且<1a,b相同顺序.3)返回值>=1 a在b后
+
+●.计时器
+    setInterval(codes,times) codes常为函数，times单位毫秒，返回值为一个可由clearInterval()调用来取消设置的值
+    clearInterval(id) id为setInterval()的返回值
+    setTimeout(codes,times) 同上，该函数仅可执行一次
+    ClearTimeout(id) 同上
+
+●.history 对象
+    window.history.[属性|方法] window可以省略
+    length 获取浏览器历史列表中url的数量
+    back() 返回前一个页面，效果等同go(-1)
+    forward() 下一个页面，效果等同go(1)
+    go(int)
+        1：前一个页面
+        0：当前页
+        -1：后一个页面
+        其他数值：要访问的URL在history列表中的相对位置
+
+●.Location 对象
+    window.location.replace(url) ： 通过加载 URL 指定的文档来替换当前文档，这个方法是替换当前窗口页面，前后两个页面共用一个窗口，所以是没有后退返回上一页的。
