@@ -1,0 +1,19 @@
+
+●.控制台输出中文乱码
+    idea安装目录中\bin\idea64.exe.vmoptions、\bin\idea.exe.vmoptions两个配置文件增加
+        -Dfile.encoding=UTF-8 的jvm配置
+    如果是tomcat启动，idea配置tomcat server时在VM options配置中增加
+        -Dfile.encoding=UTF-8
+
+●.idea中使用tomcat配置web项目，当项目增加依赖包时需要去 Artifacts 中手动将包配置到tomcat的exploded包中
+
+●.IDEA编译项目出现 非法字符 '\65279' 错误
+    solution1：Settings -> ... -> Java Complier 将 Use complier 改为 Eclipse
+    solution2：用Notepad打开报错的文件，然后在【编码】中选择【以UTF-8无BOM格式编码】即可
+
+
+
+
+
+
+

@@ -1,0 +1,49 @@
+●.idea 指定不对某些单词拼音进行检查
+    方法 1）鼠标放到被提示的单词上，然后按时按键：Alt+Enter，选中：save xxx to project-level dictionary, 然后回车确认
+    方法 2）File->settings->Editor->Spelling->Accepted Words，添加不需要被检查的单词即可
+
+●.大小写提示不敏感
+    File->setting->Editor->General->Code Completion，Match case 取消勾选
+
+●.在项目中不展示文件的配置
+    File->setting->Editor->File Types 在Ignore files and folders中添加不要展示的文件(.idea;*.iml;)
+
+●.自定义getter/setter模板
+    Alt+Insert 后选中 Getter and Setter 在最上方可选择本次自动填充的模板，选择后面的 ... 按钮可选择模板，同时可增加自定义的模板，例如如下的模板
+    eg. 对于String类型的数据其Getter返回前会先判断其是否为null值，若为null值则返回空字符串否则返回去除多余空格后的值
+        #if($field.modifierStatic)
+        static ##
+        #end
+        $field.type ##
+        #set($name = $StringUtil.capitalizeWithJavaBeanConvention($StringUtil.sanitizeJavaIdentifier($helper.getPropertyName($field, $project))))
+        #if ($field.boolean && $field.primitive)
+        is##
+        #else
+        get##
+        #end
+        ${name}() {
+        #if($field.string)
+            return $field.name == null ? "" : $field.name.##
+            trim();
+        #else
+            return $field.name;
+        #end
+        }
+
+●.自定义代码补全
+    setting -> Editor -> Live Templates
+    Abbreviation: 触发语句，@rone
+    Template text: 补全的模板，@author Rone $date$
+    Edit variables: 配置函数，Name: date, Default value: date()
+
+●.配置注释符号的位置
+    setting 搜索 comment code
+    setting -> Editor -> Code style -> Java -> Code Generation -> comment code 区域设置
+    其他语言的配置雷同
+
+●.打开多个文件时多个bar展示
+    Windows->Editor Tabs->Tabs Placement-> Show Tabs In Single Row
+
+●.对于新建的文件添加默认的内容
+    Editor -> File and Code Templates
+

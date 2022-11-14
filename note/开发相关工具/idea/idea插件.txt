@@ -1,0 +1,24 @@
+操作方法：setting -> plugins
+
+插件：
+● activate-power-mode/activate-power-mode-x  代码动效
+● Alibaba Java Coding Guidelines	阿里的Java规范检查
+● Alibaba Cloud AI Coding Assistant (Cosy)	阿里的代码智能提示工具
+● CamelCase	在几种字符串格式之间来回切换
+    按住Shift + Alt再不停的按U，不停的转换。
+● easy code    可根据数据表自动生成相关代码
+● FishBook	单独的窗口看TXT文档
+● GenerateAllSetter   自动调用所有 Setter 函数（可填充默认值）
+    光标停留在需要set的对象上，Alt+Enter 然后调用相应的选项即可
+● GenerateSerialVersionUID    自动生成 随机的serialVersionUID
+    实现了 Serializable 接口后 Alt + Insert 选择 serialVersionUID
+● Leetcode Editor	LeetCode插件，可以在IDEA中在线刷题
+● MyBatis Log Plugin    输出 Mybatis 完整的sql语句
+    Tools中打开窗口 or Ctrl+Alt+Shift+O 即可
+● MyBatisX	Java 与 XML 快捷转跳、Mapper 方法自动生成 XML
+    自动生成xml，光标停留在需要创建的方法上，Alt+Enter后条用 Generate statement 会专挑到xml文件中并自动生成相应的代码
+● Rainbow Brackets	彩虹括号
+● RestfulToolkit	在SpringMVC项目中通过url定位到controller类方法
+    Ctrl + \ 或Ctrl + Alt + N
+● Translation	翻译插件，支持google翻译、百度翻译、有道翻译
+    快捷键Ctrl + Shift + O

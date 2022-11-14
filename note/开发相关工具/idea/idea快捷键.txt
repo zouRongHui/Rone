@@ -1,0 +1,21 @@
+
+●.后缀补全
+    .var    声明变量
+    .if     if表达式
+    .null   判断为空
+    .notnull    判断非空
+    .sout   控制台输出
+
+●.复制当前行到下一行    Ctrl + D
+
+●.生成类的各项基本方法   Alt + Insert
+
+●.前进/后退    Ctrl + Alt + Left/Right（方向键）
+
+●.查看历史记录   ctrl + E
+
+●.查看最近修改代码的位置  ctrl + shift + E
+
+●.自动补全代码   ctrl + shift + Enter（回车键）
+
+
