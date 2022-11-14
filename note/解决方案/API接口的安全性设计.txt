@@ -1,0 +1,101 @@
+
+●.token方案 - 微信小程序的接口安全设计
+    用账号+密码、id+secret的形式去置换一个有时限的token，后续的请求需要携带该token参数。
+    注意点：
+        1).当请求方定时更新了token后，考虑一下请求方token短时间内不一致的情况，可设计为旧token延时一段时间有效。
+        2).token的存储问题，多机集群部署，token的存储设计。可考虑使用redis集中的缓存服务。
+●.接口签名
+    每次请求接口时，可对id+secret、请求方式、请求地址、请求参数、时间戳、防重序列等数据进行一次or多次加密签名，后续服务端去校验简明以判断请求的合法性。
+    注意点：secret的泄露问题
+    参考设计：
+        //步骤一
+        String 参数1 = 请求方式 + 请求URL相对地址 + 请求Body字符串;
+        String 参数1加密结果= md5(参数1)
+        //步骤二
+        String 参数2 = appSecret + timestamp + nonce + 参数1加密结果;
+        String 参数2加密结果= md5(参数2)
+    Demo：
+    public class SignInterceptor implements HandlerInterceptor {
+        @Autowired
+        private AppSecretService appSecretService;
+        @Autowired
+        private RedisUtil redisUtil;
+        @Override
+        public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+            //appId验证
+            final String appId = request.getHeader("appid");
+            if(StringUtils.isEmpty(appId)){
+                throw new CommonException("appid不能为空");
+            }
+            String appSecret = appSecretService.getAppSecretByAppId(appId);
+            if(StringUtils.isEmpty(appSecret)){
+                throw new CommonException("appid不合法");
+            }
+            //时间戳验证
+            final String timestamp = request.getHeader("timestamp");
+            if(StringUtils.isEmpty(timestamp)){
+                throw new CommonException("timestamp不能为空");
+            }
+            //大于5分钟，非法请求
+            long diff = System.currentTimeMillis() - Long.parseLong(timestamp);
+            if(Math.abs(diff) > 1000 * 60 * 5){
+                throw new CommonException("timestamp已过期");
+            }
+            //临时流水号，防止重复提交
+            final String nonce = request.getHeader("nonce");
+            if(StringUtils.isEmpty(nonce)){
+                throw new CommonException("nonce不能为空");
+            }
+            //验证签名
+            final String signature = request.getHeader("signature");
+            if(StringUtils.isEmpty(nonce)){
+                throw new CommonException("signature不能为空");
+            }
+            final String method = request.getMethod();
+            final String url = request.getRequestURI();
+            final String body = StreamUtils.copyToString(request.getInputStream(), Charset.forName("UTF-8"));
+            String signResult = SignUtil.getSignature(method, url, body, timestamp, nonce, appSecret);
+            if(!signature.equals(signResult)){
+                throw new CommonException("签名验证失败");
+            }
+            //检查是否重复请求
+            String key = appId + "_" + timestamp + "_" + nonce;
+            if(redisUtil.exist(key)){
+                throw new CommonException("当前请求正在处理，请不要重复提交");
+            }
+            //设置5分钟
+            redisUtil.save(key, signResult, 5*60);
+            request.setAttribute("reidsKey",key);
+        }
+        @Override
+        public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+                throws Exception {
+            //请求处理完毕之后，移除缓存
+            String value = request.getAttribute("reidsKey");
+            if(!StringUtils.isEmpty(value)){
+                redisUtil.remove(value);
+            }
+        }
+    }
+
+    public class SignUtil {
+        /**
+         * 签名计算
+         * @param method
+         * @param url
+         * @param body
+         * @param timestamp
+         * @param nonce
+         * @param appSecret
+         * @return
+         */
+        public static String getSignature(String method, String url, String body, String timestamp, String nonce, String appSecret){
+            //第一层签名
+            String requestStr1 = method + url + body + appSecret;
+            String signResult1 = DigestUtils.md5Hex(requestStr1);
+            //第二层签名
+            String requestStr2 = appSecret + timestamp + nonce + signResult1;
+            String signResult2 = DigestUtils.md5Hex(requestStr2);
+            return signResult2;
+        }
+    }
