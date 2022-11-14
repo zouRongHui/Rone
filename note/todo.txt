@@ -1,0 +1,19 @@
+好代码读起来应该像一个故事，而不是像一个字谜
+**************************************************************************************
+Java：
+    并发包java.concurrent	外修互斥，内修可见
+    IO包和NIO包
+    JVM：GC、类加载机制、内存
+第三方工具：
+    activit流程管理组件
+    Jenkins 自动部署发布工具
+    supervisor	进程管理工具
+    spring blade    微服务平台   https://gitee.com/smallc/SpringBlade
+    spring-secret
+其他
+    算法思想：递归、分治、贪心、动态规划
+    shell语法
+前端：
+    ajax请求无法使用自定义的cookie
+    el、jstl
+    js 的RegExp对象

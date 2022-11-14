@@ -37,7 +37,7 @@ public class TimingJob implements SchedulingConfigurer {
             //    return null;
             // }
 
-            //遵循cornTrigger规则
+            //遵循corn表达式
             String cron = "0 1 * * * ?";
             CronTrigger cronTrigger = new CronTrigger(cron);
             Date nextTime = cronTrigger.nextExecutionTime(triggerContext);

@@ -5,6 +5,18 @@ import com.fasterxml.uuid.Generators;
 import java.util.UUID;
 
 /**
+ * UUID，是可由网卡MAC地址、时间戳、名字空间（Namespace）、随机数/伪随机数、时序等元素生成。
+ * UUID的版本
+ * V1 基于时间
+ *     计算当前时间戳、随机数和机器MAC地址得到。除非同一机器并发肯会重复，其余全球唯一。
+ * V2 DCE安全
+ *     将V1时间戳的前四位换成POSIX的UID或者GID。
+ * V3 基于名字(MD5)
+ *     基于名字的UUID通过计算名字和名字空间的MD5散列值得到。相同名字空间中不同名字生成的UUID唯一;不同名字空间中UUID唯一;相同名字空间中相同名字UUID重复。
+ * V4 基于伪随机数
+ *     根据随机数/伪随机数生成，重复的概率可计算。
+ * V5 基于名字(SHA1)
+ *     基本同MD5，就算算法不同。
  * UUID在Java中的实现
  * jdk支持版本4和版本3的UUID
  * com.fasterxml.uuid 支持版本1的UUID

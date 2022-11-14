@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 官方文档：https://mybatis.org/mybatis-3/zh/index.html -->
 <mapper namespace="org.rone.web.dao.UserDao">
 
     <resultMap type="org.rone.web.model.entity.User" id="UserMap">
@@ -17,6 +18,8 @@
     </select>
 
     <!--查询指定行数据-->
+    <!-- #{} 会转义成 占位符？ -->
+    <!-- ${} 无需转义直接替换 -->
     <select id="queryAllByLimit" resultMap="UserMap">
         select
             user_no, user_name, user_explain

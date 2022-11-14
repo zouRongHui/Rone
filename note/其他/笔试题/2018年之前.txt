@@ -1,0 +1,49 @@
+
+●. 如下代码输出：false
+		String s1 = "hello";
+		String s2 = "he" + new String("llo");
+		System.out.println(s1 == s2);
+		
+●. final,finally,finalize各自的用途？
+	final用来修饰类、方法、变量，Final类不能被继承方法，Final方法不能被重写，Final变量是不可变的；
+	finally是和try{}catch{}配套使用，一般用来释放一些占用的资源；
+	finalize是Object类的一个方法，用来实现对资源的回收。
+
+●. 是否存在 i ，使得 i+1<i ？
+	在Java中是存在的，这是由于带有符号的数据类型都有最大值，当超过最大值时就会发生这样的情况，例如
+		int i = Integer.MAX_VALUE;//2147483647
+		int j = i + 1;//-2147483648
+		System.out.println(j < i);//true
+
+●. char 能存储一个汉字，char是16位，两个字节。
+
+●. 如下代码输出：true，false
+		Integer f1 = 100, f2 = 100, f3 = 150, f4 = 150;
+		System.out.println(f1 == f2);
+		System.out.println(f3 == f4);
+	Tip：当我们给Integer类型赋值int时，Integer会调用static Integer valueOf(int i)方法，
+		简单地说就是当值在-128~127之间时，不会new新的对象而是直接使用常量池中的对象，所以是上述结果。
+		
+●. 如下代码输出：second.. first..
+		Thread t = new Thread() {
+			public void run() {
+				System.out.println("second..");
+			};
+		};
+		t.run();
+		System.out.println("first..");
+	Tip：启动一个线程是使用Thread.start() 方法，这里直接使用run() 方法等于一般的调用。
+
+●. switch支持的类型：Short、Integer、Character、Byte、String、枚举类对象
+
+●. 常见的异常
+    ArrayIndexOutOfBoundsException	数组下标越界错误
+    ClassNotFoundException
+    NullPointerException
+    ClassCastException
+	
+●. boolean类型占用多少字节？
+	一般情况下：boolean在数组情况下为1个字节，单个boolean为4个字节(虚拟机规范中说了，boolean值在编译之后都使用Java虚拟机中的int数据类型来代替)。
+	按照虚拟机规范来设计的虚拟机上，是上述的情况，非规范的就不好说了。
+	
+    
