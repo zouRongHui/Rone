@@ -33,7 +33,3 @@
                 boolean trueBoolean = true;
                 Boolean result = trueBoolean ? nullBoolean : falseBoolean;
                 System.out.println(result);
-
-●.System类
-    System.gc() 垃圾回收
-    System.currentTimeMillis()  获取系统时间(单位ms)
