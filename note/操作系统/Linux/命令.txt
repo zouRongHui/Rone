@@ -241,6 +241,9 @@
     lsof -i:端口号
     netstat -tunlp|grep 端口号
 
+●.查看进程号的服务
+    ll /proc/进程号/cwd
+
 ●.grep用于查找文件里符合条件的字符串
 	#查找后缀有“.conf”的文件包含“test”字符串的文件
 	grep test *.conf
