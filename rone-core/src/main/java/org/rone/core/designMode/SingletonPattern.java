@@ -36,7 +36,7 @@ import java.lang.reflect.Constructor;
  *     虽然该方案仍然存在缺陷，例如可通过反射修改 initialized 的值，来实现多次实例。
  *     但反射机制一般开发人员不会直接使用，通常时一些框架去使用，所以上述的情况也基本不会发生。
  * ●.序列化对单例的影响
- *     序列化底层是通过反射来实例化的，所以会破坏单例。
+ *     普通的 Java 类的反序列化过程中，会通过反射调用类的默认构造函数来初始化对象。所以，即使单例中构造函数是私有的，也会被反射给破坏掉。由于反序列化后的对象是重新 new 出来的，所以这就破坏了单例。
  *     解决方案：创建一个private Object readResolve() { return getInstance(); } 方法，
  *         反序列化底层会通过判断是否拥有该方法，来维护其单例特性。
  * @author rone
@@ -183,6 +183,11 @@ public class SingletonPattern {
 
     /**
      * 枚举类，线程安全，防止反序列化重新创建新的对象
+     * 线程安全：反编译class文件后会发现每个枚举实例是形如 public final class T extends Enum 的实现，static 类型的属性会在类被加载之后被初始化。而
+     *      当一个 Java 类第一次被真正使用到的时候静态资源被初始化、Java 类的加载和初始化过程都是线程安全的（因为虚拟机在加载枚举的类的时候，
+     *      会使用 ClassLoader 的 loadClass 方法，而这个方法使用同步代码块保证了线程安全）。所以，创建一个 enum 类型是线程安全的。
+     * 防止反序列化破单例：枚举类在序列化的时候 Java 仅仅是将枚举对象的 name 属性输出到结果中，反序列化的时候则是通过 java.lang.Enum 的 valueOf 方法来根据名字查找枚举对象。
+     *      同时，编译器是不允许任何对这种序列化机制的定制的，因此禁用了 writeObject、readObject、readObjectNoData、writeReplace 和 readResolve 等方法。
      * @author Rone
      */
     enum Singleton5 {
