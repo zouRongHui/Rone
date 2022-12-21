@@ -17,17 +17,32 @@ public class AnnotationDemo {
 
     public static void main(String[] args) throws NoSuchMethodException {
         AnnotationDemo annotation = new AnnotationDemo();
-        Method method = annotation.getClass().getMethod("test", (Class<?>) null);
+        Method method = annotation.getClass().getMethod("test");
         if (method.isAnnotationPresent(MyAnnotation.class)) {
             System.out.println(method.getAnnotation(MyAnnotation.class));
             Arrays.stream(method.getAnnotation(MyAnnotation.class).value()).forEach(System.out::println);
             System.out.println(method.getAnnotation(MyAnnotation.class).name());
         }
+
+        test1();
+    }
+
+    /**
+     * @Deprecated 表示方法已经过时，方法上有横线，使用时会有警告。
+     */
+    @Deprecated
+    public static void test1() {
+        System.out.println("该方法已被弃用！");
     }
 
     @MyAnnotation({"fuck", "the", "world"})
-    public void test() {}
+    public static void test() {}
 
+    /**
+     * 元注解，就是 定义其他注解的注解。
+     * 元注解有四个:@Target（表示该注解可以用于什么地方）、@Retention（表示再什么级别保存该注解信息）、
+     *  @Documented（将此注解包含再 javadoc 中）、 @Inherited（允许子类继承父类中的注解）。
+     */
     /**
      * 用来说明该注解使用的地方
      *  ElementType.TYPE：说明该注解只能被声明在一个类前。
