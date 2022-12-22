@@ -1,5 +1,23 @@
 spring:
+  h2:
+    console:
+      enabled: true
+      配置web管理台的地址
+      path: /h2
+#  使用内存数据库 h2
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/rone?useUnicode=true&characterEncoding=utf-8
+    driver-class-name: org.h2.Driver
+#    不持久化写法，服务停掉数据就丢失
+    url: jdbc:h2:mem:testdb
+#    持久化数据的写法，Windows下绝对路径需要携带盘符
+#    url: jdbc:h2:file:./rone-web/src/main/resources/h2db/rone
     username: rone
-    password: rone
+    password:
+#    启动时需要执行的SQL语句
+    schema: classpath:/sql/H2.sql
+    ## 第二数据源
+    second:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/rone?useUnicode=true&characterEncoding=utf-8
+      username: rone
+      password: rone

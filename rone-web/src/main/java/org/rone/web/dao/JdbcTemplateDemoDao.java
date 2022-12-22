@@ -78,29 +78,29 @@ public class JdbcTemplateDemoDao {
         jdbcTemplate.batchUpdate(sql, objList);
 
         // JdbcTemplate 查询单个结果，若查询条件无结果时会抛出异常 org.springframework.dao.EmptyResultDataAccessException
-		sql = "SELECT * FROM user WHERE user_no = ?";
+		sql = "SELECT * FROM web_user WHERE user_no = ?";
 		RowMapper<User> rowMapper = new BeanPropertyRowMapper<>(User.class);
         User user = jdbcTemplate.queryForObject(sql, rowMapper, "jdbc001");
         logger.info("JdbcTemplate 查询单个结果: {}", user);
 
         // JdbcTemplate 多个结果的查询
-		sql = "SELECT * FROM user";
+		sql = "SELECT * FROM web_user";
 		List<User> userList = jdbcTemplate.query(sql, rowMapper);
         logger.info("JdbcTemplate 多个结果的查询: {}", userList);
 		// userList = secondJdbcTemplate.query(sql, rowMapper);
         // logger.info("secondJdbcTemplate 多个结果的查询: {}", userList);
 
         // JdbcTemplate 单个SQL语句的增删改
-		sql = "UPDATE user SET user_name = ? WHERE user_no = ?";
+		sql = "UPDATE web_user SET user_name = ? WHERE user_no = ?";
 		jdbcTemplate.update(sql, "Jack", "jdbc001");
 
         // JdbcTemplate 查询单个属性或做统计
-		sql = "SELECT COUNT(1) FROM user";
+		sql = "SELECT COUNT(1) FROM web_user";
 		Long count = jdbcTemplate.queryForObject(sql, Long.class);
         logger.info("JdbcTemplate 查询单个属性或做统计。目前数据表中总数：{}", count);
 
         // NamedParameterJdbcTemplate 使用具名参数
-		sql = "UPDATE user SET user_name = :userName WHERE user_no = :userNo";
+		sql = "UPDATE web_user SET user_name = :userName WHERE user_no = :userNo";
 		Map<String, Object> paramMap = new HashMap<>(2);
 		paramMap.put("userName", "King");
 		paramMap.put("userNo", "jdbc002");
@@ -113,7 +113,7 @@ public class JdbcTemplateDemoDao {
 		namedParameterJdbcTemplate.update(sql, paramSource);
 
         // 在spring jdbcTemplate中使用in时，需要使用NamedParameterJdbcTemplate具名的参数来查询
-        sql = "select * from user where user_no in (:userNos)";
+        sql = "select * from web_user where user_no in (:userNos)";
         List<String> ids = new ArrayList<>(3);
         ids.add("jdbc001");
         ids.add("jdbc002");

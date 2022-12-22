@@ -1,5 +1,5 @@
 -- auto-generated definition
-create table user
+create table web_user
 (
     user_no      varchar(32) not null comment '用户编号'
         primary key,

@@ -19,21 +19,7 @@ spring:
   # 指定环境变量的配置根据pom中的配置来
   profiles:
     active: @env@
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    type: com.alibaba.druid.pool.DruidDataSource
-    dbcp2:
-      min-idle: 5
-      initial-size: 5
-      max-total: 5
-      max-wait-millis: 150
-    ## 第二数据源
-    second:
-      url: jdbc:mysql://localhost:3306/rone?useUnicode=true&characterEncoding=utf-8
-      username: rone
-      password: rone
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      type: com.alibaba.druid.pool.DruidDataSource
+  # datasource: 数据库连接的配置在各个环境的配置文件中
   ## freemarker模板
   freemarker:
     template-loader-path: classpath:/static/ftl

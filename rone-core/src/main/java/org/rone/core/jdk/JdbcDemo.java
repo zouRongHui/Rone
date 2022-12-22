@@ -41,7 +41,7 @@ public class JdbcDemo {
         //设置默认提交为false，后面需要手动提交
         connection.setAutoCommit(false);
 
-        sql = "delete from user where userName='NO.0'";
+        sql = "delete from web_user where userName='NO.0'";
         statement = connection.prepareStatement(sql);
         statement.execute();
         statement.close();
@@ -70,7 +70,7 @@ public class JdbcDemo {
      */
     public static void batchInsertAndUpdate() throws SQLException {
         Statement statement = connection.createStatement();
-        statement.addBatch("update user set tip='normal' where userName='NO.2'");
+        statement.addBatch("update web_user set tip='normal' where userName='NO.2'");
         statement.addBatch("insert into user(`userName`,`pwd`,`tip`) values('t-ara','999','super vip')");
         statement.executeBatch();
         connection.close();
@@ -80,7 +80,7 @@ public class JdbcDemo {
      * 批量更新数据
      */
     public static void batchUpdate() throws SQLException {
-        sql = "update user set tip=? where userName=?";
+        sql = "update web_user set tip=? where userName=?";
         statement = connection.prepareStatement(sql);
         int length = 3;
         for (int i = 0; i < length; i++) {
@@ -112,7 +112,7 @@ public class JdbcDemo {
      * 查询数据
      */
     public static void select() throws Exception {
-        sql = "select * from user";
+        sql = "select * from web_user";
         statement = connection.prepareStatement(sql);
         resultSet = statement.executeQuery();
         while (resultSet.next()) {

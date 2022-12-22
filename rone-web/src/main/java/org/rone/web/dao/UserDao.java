@@ -29,7 +29,7 @@ public interface UserDao {
      * @param userNo
      * @return
      */
-    @Select("select user_no,user_name,user_explain from user where user_no = #{userNo}")
+    @Select("select user_no,user_name,user_explain from web_user where user_no = #{userNo}")
     User getUserByNo(@Param("userNo") String userNo);
 
     /**
@@ -37,7 +37,7 @@ public interface UserDao {
      * @param userName
      * @return
      */
-    @Select("select user_no,user_name,user_explain from user where user_name like #{userName}")
+    @Select("select user_no,user_name,user_explain from web_user where user_name like #{userName}")
     List<User> getUserByUserName(@Param("userName") String userName);
 
     /**
@@ -45,7 +45,7 @@ public interface UserDao {
      * @param userNo
      * @return
      */
-    @Select("select user_no,user_name from user where user_no = #{userNo}")
+    @Select("select user_no,user_name from web_user where user_no = #{userNo}")
     Map getPartUserDataByNo(@Param("userNo") String userNo);
 
     /**
@@ -54,7 +54,7 @@ public interface UserDao {
      * @param userName
      * @return
      */
-    @Update("update user set user_name=#{userName} where user_no = #{userNo}")
+    @Update("update web_user set user_name=#{userName} where user_no = #{userNo}")
     int updateUserNameByNo(@Param("userNo") String userNo, @Param("userName") String userName);
 
     /**
