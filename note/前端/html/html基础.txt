@@ -34,6 +34,7 @@
             <option value="提交到后台的值" selected="selected默认选中">选项文本</option>
          </select>
             multiple="multiple" 属性定义为下拉多选
+    文本选择框，<input type="file" name="名称">，当使用<form>表单提交文件时，需要给表单设置 enctype="multipart/form-data"
     提交按钮 <input type="submit" value="按钮文字"/>
     重置按钮 <input type="reset" value"按钮文字" />
 ●. <label for="控件id名称">文本</label>  (for属性将label和控件相关联，点击label也就是点击与之相关联的控件)
