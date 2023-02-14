@@ -10,3 +10,29 @@
 	不可重复读（read-committed）	    否		是			是
 	可重复读（repeatable-read）		否		否			是
 	串行化（serializable）			否		否			否
+
+●. 事务的问题，长事务和大事务可能存在以下问题：
+    1.Undo 异常增长，导致Ibdata空间问题，增加存储成本，也会使得Hitory List过长，导致严重的性能问题。
+    2.Binlog 异常增长，由于单个事务不拆分存放，会导致某一个或者某一些Binlog非常的大，做复制或主从时会产生一定问题。
+    3.Slave延迟，DDL类，写入等，DDL是语句级回放，Slave要等到执行结束后再继续。
+    4.锁问题，死锁、阻塞。针对大事务与长事务做出优化：
+        ·大事务
+            1）大事务拆分为小事务；
+            2）DDL拆分（无锁变更）。
+        ·长事务
+            1）合并为大事务（特别合适应用于写入场景，对写提升很大，而且数据不会特别长）；
+            2）事务分解（不必要的请求摘除）；
+            3）应用侧保证一致性。
+        事务使用基本原则：在保证业务逻辑的前提下，尽可能缩短事务长度。
+
+●. 事务问题定位
+    1.长事务问题定位
+        定位命令：Information_schema.innodb_trx
+        例如：
+        SELECT trx.trx_id, trx.trx_started,trx.trx_mysql_thread_id
+        FROM INFORMATION_SCHEMA.INNODB_TRX trx
+        WHERE trx.trx_started < CURRENT_TIMESTAMP - INTERVAL 1 SECOND
+    2.锁问题定位
+        8.0以前：information_schema.innodb_lock_waits、innodb_locks。
+        8.0及以后：performance_schema. data_lock_waits、data_locks。
+
