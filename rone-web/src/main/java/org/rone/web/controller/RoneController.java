@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -242,6 +244,11 @@ public class RoneController {
     public void servletAPI(HttpServletRequest req, HttpServletResponse resp, Writer writer) throws IOException {
         logger.debug("testServletAPI: {}, {}", req, resp);
         writer.write("hello world!");
+
+        // 或者通过IOC的上下文对象来获取
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletResponse response = servletRequestAttributes.getResponse();
+        HttpServletRequest request = servletRequestAttributes.getRequest();
     }
 
     /**
