@@ -2,6 +2,11 @@ package org.rone.core.jdk;
 
 /**
  * class对象初始化
+ * 初始化的顺序(先父类后子类、先静态后私有)
+ *  1.父类的静态成员变量和静态代码块
+ *  2.子类的静态成员变量和静态代码块
+ *  3.父类的普通成员变量和代码块，再执行父类的构造方法
+ *  4.子类的普通成员变量和代码块，再执行子类的构造方法
  * @author rone
  */
 public class ClassInitDemo {
@@ -14,13 +19,19 @@ public class ClassInitDemo {
      * static{}静态代码块、{}构造代码块、构造器constructor 的执行顺序
      */
     public static void test1() {
-        Test1ClassA.test();
-        Test1ClassA.test2();
-        Test1ClassA.test();
+        // Test1ClassA.test();
+        // Test1ClassA.test2();
+        // Test1ClassA.test();
+        /* 输出
+        static Test1ClassA
+        静态方法 Test1ClassA
+        静态方法2 Test1ClassA
+        静态方法 Test1ClassA
+        */
 
-        // Test1ClassB t1 = new Test1ClassB();
-        // System.out.println();
-        // Test1ClassB t2 = new Test1ClassB();
+        Test1ClassB t1 = new Test1ClassB();
+        System.out.println();
+        Test1ClassB t2 = new Test1ClassB();
         /* 输出
         static Test1ClassA
         static Test1ClassB
