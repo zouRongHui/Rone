@@ -34,3 +34,7 @@
 
 ●.文本框设置不记忆以往的输入记录
     <input type="text" name="planName" class="form-control" value="${(result.planName)!}" autocomplete="off">
+
+●.form表单设置提交后不触发请求
+    在页面上添加 <iframe src="" frameborder="0" name="frameName" style="display: none;"></iframe>
+    form表单增加 target="frameName" 属性
