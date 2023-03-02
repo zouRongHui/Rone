@@ -2,7 +2,7 @@ spring:
   h2:
     console:
       enabled: true
-      配置web管理台的地址
+#      配置web管理台的地址
       path: /h2
 #  使用内存数据库 h2
   datasource:
