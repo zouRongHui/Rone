@@ -1,5 +1,19 @@
 ●. https://www.runoob.com/linux/linux-shell.html
 
+●.基础语法
+    变量定义：变量名 = 变量值
+    使用变量：$变量名、${变量名}
+    删除变量：unset 变量名
+    条件判断：if [[条件1]]; then 执行语句; elif [[条件]]; then 执行语句; else 执行语句; fi
+
+●.字符串运算符，假设 a="abc" b="efg"
+    ==	检测两个字符串是否相等，相等返回 true   [ $a=$b ] 返回 false
+    !=	检测两个字符串是否相等，不相等返回 true  [ $a!=$b ] 返回 true
+    -z	检测字符串长度是否为0，为0返回 true   [ -z $a ] 返回 false
+    -n	检测字符串长度是否为0，不为0返回 true  [ -n "$a" ] 返回 true
+    $	检测字符串是否为空，不为空返回 true    [ $a ] 返回 true
+    =~  检测字符串是否包含，包含返回 true [ $a =~ $b ] 返回 false
+
 ●.判断文件/文件夹是否存在
 	-e filename #如果 filename为目录，则为真 
 	-f filename #如果 filename为常规文件，则为真 
@@ -22,3 +36,21 @@
 			if [ ! -f "$tempFile" ]; then
 				touch $tempFile
 			fi
+
+●.判断当前的IP地址是否为目标ip
+    targetIp="127.0.0.1"
+    localIp=`ifconfig`
+    if [[ ${localIp} =~ ${targetIp} ]]
+    then
+    echo "当前服务器ip确实为：${targetIp}"
+    fi
+
+
+
+
+
+
+
+
+
+
