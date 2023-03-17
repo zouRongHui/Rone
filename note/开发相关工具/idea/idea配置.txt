@@ -43,7 +43,34 @@
 
 ●.打开多个文件时多个bar展示
     Windows->Editor Tabs->Tabs Placement-> Show Tabs In Single Row
+    Editor -> General -> Editor Tabs -> Show tabs in one row
+
+●.设置最多打开多少个tab页
+    Editor -> General -> Editor Tabs 配置 Tab limit 的值
 
 ●.对于新建的文件添加默认的内容
     Editor -> File and Code Templates
+        #if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+        #parse("File Header.java")
 
+        /**
+         * @author rone
+         * @date ${DATE}
+         */
+        public class ${NAME} {
+        }
+
+●.显示方法分隔符
+    Editor -> General -> Appearance -> Show method separators
+
+●.代码模板(代码快捷键)
+    Editor -> General -> Postfix Completion
+
+●.自动导包、自动移除没用的包
+    Editor -> General -> Auto Import 中的 Add unambiguous imports on the fly 和 Optimize imports on the fly
+    手动导包 :alt+enter 手动移除未使用包: crtl+alt+o
+
+●.给代码配置标签
+    F11添加标签(或者行数位置右击)，在左下角的 favorites 中 ，找到bookmarks 我们还可以将添加的书签右键重命名
+
+●.
