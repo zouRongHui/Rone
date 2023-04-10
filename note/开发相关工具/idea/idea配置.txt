@@ -73,4 +73,8 @@
 ●.给代码配置标签
     F11添加标签(或者行数位置右击)，在左下角的 favorites 中 ，找到bookmarks 我们还可以将添加的书签右键重命名
 
+●.设置过长自动换行
+    Editor -> Code Style 中Hard wrap at设置每行最大长度(就是窗口中那道暗实线)，Warp on typing勾选及自动换行
+    tips：过长的字符串会使用 + 做拼接，编译时会自动优化。
+
 ●.
