@@ -6,6 +6,7 @@ import cn.hutool.core.util.StrUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.StringJoiner;
 import java.util.StringTokenizer;
@@ -66,6 +67,7 @@ public class StringDemo {
      *  1.转义字符,必须得加"\\"，转义字符有 . | +
      *  2.如果分隔符为 \ ，则需要如下写法：String.split("\\\\")
      *  3.如果在一个字符串中有多个分隔符,可以用“|”作为连字符,比如,“acount=? and uu =? or n=?”,把三个都分隔出来,可以用String.split("and|or")
+     *  4.可以指定拆分的最大数量，
      */
     public static void splitTest() {
         String str = "a.b.4x5.e";
@@ -81,6 +83,17 @@ public class StringDemo {
         for (String temp : strs) {
             System.out.print(temp + "_");
         }
+
+        // split(regex, limit) limit参数可以指定拆分的最大次数
+        str = "testjava|hello world|";
+        Arrays.stream(str.split("\\|", 1)).forEach(s -> System.out.println(s));
+        System.out.println("*************************");
+        Arrays.stream(str.split("\\|", 2)).forEach(s -> System.out.println(s));
+        System.out.println("*************************");
+        Arrays.stream(str.split("\\|", 3)).forEach(s -> System.out.println(s));
+        System.out.println("*************************");
+        Arrays.stream(str.split("\\|", 4)).forEach(s -> System.out.println(s));
+        System.out.println("*************************");
     }
 
     /**
