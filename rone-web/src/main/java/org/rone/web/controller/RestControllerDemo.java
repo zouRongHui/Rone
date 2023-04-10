@@ -3,11 +3,13 @@ package org.rone.web.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.rone.web.event.DemoEventListener;
 import org.rone.web.model.entity.User;
 import org.rone.web.model.vo.DateVO;
 import org.rone.web.model.vo.Result;
 import org.rone.web.service.AsyncMethodService;
 import org.rone.web.service.RoneService;
+import org.rone.web.util.ApplicationContextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -110,6 +112,14 @@ public class RestControllerDemo {
     @ApiOperation(value = "jdbcTemplate示例")
     public Result jdbcTemplateDemo() {
         roneService.jdbcTemplateDemo();
+        return Result.success("详见日志输出");
+    }
+
+    @RequestMapping(value = "/eventListenerDemo", method = RequestMethod.POST)
+    @ApiOperation(value = "eventListener示例")
+    public Result eventListenerDemo() {
+        logger.info("发起事件监听...");
+        ApplicationContextUtils.getApplicationContext().publishEvent(new DemoEventListener.DemoEvent());
         return Result.success("详见日志输出");
     }
 }
