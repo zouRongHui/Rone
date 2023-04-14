@@ -2,7 +2,15 @@ package org.rone.core.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.parser.DefaultJSONParser;
+import com.alibaba.fastjson.parser.deserializer.ObjectDeserializer;
+import com.alibaba.fastjson.serializer.JSONSerializer;
+import com.alibaba.fastjson.serializer.ObjectSerializer;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -39,6 +47,8 @@ public class FastJsonDemo {
         userJson.put("sex", "man");
         userJson.put("age", "21");
         userJson.put("job", "programmer");
+        userJson.put("registerTime", "2023-04-14 10:50:58");
+        userJson.put("type", "普通会员11");
         User user = JSON.parseObject(userJson.toJSONString(), User.class);
         //User{name='rone', sex='man', age=21, job='programmer', address='null'}
         System.out.println(user);
@@ -48,7 +58,7 @@ public class FastJsonDemo {
      * Object转Json
      */
     public static void object2Json() {
-        User user = new User("rone", "man", 21, "programmer", "浙江杭州");
+        User user = new User("rone", "man", 21, "programmer", "浙江杭州", new Date(), 2);
         //这里貌似没有Object转JsonObject的方法，可能原因是设计者认为Object比起JsonObject更为方便所以没必要提供这个方法
         String userJsonString = JSON.toJSONString(user);
         //{"address":"浙江杭州","age":21,"job":"programmer","name":"rone","sex":"man"}
@@ -84,15 +94,22 @@ public class FastJsonDemo {
         private Integer age;
         private String job;
         private String address;
+        @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+        private Date registerTime;
+        /** 0:普通会员,1:高级会员,2:专享会员 */
+        @JSONField(serializeUsing = UserTypeSerializer.class, deserializeUsing = UserTypeDeSerializer.class)
+        private Integer type;
 
         public User() {}
 
-        public User(String name, String sex, Integer age, String job, String address) {
+        public User(String name, String sex, Integer age, String job, String address, Date registerTime, Integer type) {
             this.name = name;
             this.sex = sex;
             this.age = age;
             this.job = job;
             this.address = address;
+            this.registerTime = registerTime;
+            this.type = type;
         }
 
         @Override
@@ -108,12 +125,14 @@ public class FastJsonDemo {
                     Objects.equals(sex, user.sex) &&
                     Objects.equals(age, user.age) &&
                     Objects.equals(job, user.job) &&
-                    Objects.equals(address, user.address);
+                    Objects.equals(address, user.address) &&
+                    Objects.equals(registerTime, user.registerTime) &&
+                    Objects.equals(type, user.type);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(name, sex, age, job, address);
+            return Objects.hash(name, sex, age, job, address, registerTime, type);
         }
 
         @Override
@@ -124,6 +143,8 @@ public class FastJsonDemo {
                     ", age=" + age +
                     ", job='" + job + '\'' +
                     ", address='" + address + '\'' +
+                    ", registerTime=" + registerTime + '\'' +
+                    ", type=" + type + '\'' +
                     '}';
         }
 
@@ -165,6 +186,73 @@ public class FastJsonDemo {
 
         public void setAddress(String address) {
             this.address = address;
+        }
+
+        public Date getRegisterTime() {
+            return registerTime;
+        }
+
+        public void setRegisterTime(Date registerTime) {
+            this.registerTime = registerTime;
+        }
+
+        public Integer getType() {
+            return type;
+        }
+
+        public void setType(Integer type) {
+            this.type = type;
+        }
+    }
+
+    /**
+     * 属性的自定义序列化
+     */
+    public static class UserTypeSerializer implements ObjectSerializer {
+        @Override
+        public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType, int features) throws IOException {
+            Integer type = (Integer) object;
+            String message = "";
+            switch (type) {
+                case 1:
+                    message = "普通会员";
+                    break;
+                case 2:
+                    message = "高级会员";
+                    break;
+                case 3:
+                    message = "专享会员";
+                    break;
+            }
+            serializer.write(message);
+        }
+    }
+
+    /**
+     * 属性的自定义反序列化
+     */
+    public static class UserTypeDeSerializer implements ObjectDeserializer {
+        @Override
+        public Object deserialze(DefaultJSONParser parser, Type type, Object fieldName) {
+            Integer result = null;
+            String message = parser.getLexer().stringVal();
+            switch (message) {
+                case "普通会员":
+                    result = 1;
+                    break;
+                case "高级会员":
+                    result = 2;
+                    break;
+                case "专享会员":
+                    result = 3;
+                    break;
+            }
+            return result;
+        }
+
+        @Override
+        public int getFastMatchToken() {
+            return 0;
         }
     }
 }
