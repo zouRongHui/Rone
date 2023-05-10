@@ -226,6 +226,8 @@
                 find 路径 -perm mode      #实现的是精确匹配
                 find 路径 -perm -mode     #完全包含此mode时才可以匹配（转换为权限字符r,w,x后再比较）
                 find 路径 -perm /mode     #任何一位匹配即可（即所有者，所属组，其他人权限中的一位）
+         查找是忽略没有权限的文件夹，在最后加上 2>/dev/null
+            eg. find / -name rone.txt 2>/dev/null
 
 ●.ps -ef |grep nginx   查询nginx相关的进程
 

@@ -1,0 +1,9 @@
+
+●.host key verification failed 报错
+    1.首先查看当前用户下是否以后ssh的公钥配置。
+        vi ~/.ssh/known_hosts
+    2.1如果已存在对应域名/IP的秘钥，进行删除，然后见步骤3。
+        ssh-keygen -R 域名/IP
+    2.2如果不存在再去root用户下查看一下，如果root下存在则执行步骤2.1，如果也不存在则见步骤3。
+    3.然后使用ssh登录到目标服务器，此时会建立新的秘钥。
+        ssh 用户名字@域名/IP
