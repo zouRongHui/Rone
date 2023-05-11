@@ -33,7 +33,6 @@
 		https://mp.weixin.qq.com/s/7ct-mvSIaT3o4-tsMaKRWA
 	●.spring aop源码 https://mp.weixin.qq.com/s/NDDf3GBy5hJ4diuSgKZGog
 	●.Java的值传递和引用传递   https://mp.weixin.qq.com/s/Qp6Cc0mlRLnrToNy5-3zeg
-    ●.http请求连接池 https://blog.csdn.net/weixin_33913332/article/details/92430557
     ●.Java 类中可以覆盖静态方法吗？   https://mp.weixin.qq.com/s/fPh_zhD_zQc43i0gQHiv2w
     ●.JVM 怎么判断对象已经死了？ https://mp.weixin.qq.com/s/bPexDXkSJ0T4vQnmWMsoZQ
     ●.几种典型的内存溢出案例 https://mp.weixin.qq.com/s/W6q6DHG-SXogCaqZnrGmbw
