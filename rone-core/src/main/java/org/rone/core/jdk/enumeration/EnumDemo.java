@@ -11,9 +11,14 @@ public class EnumDemo {
     public static void main(String[] args) {
         RoneEnum.SUCCESS.test();
         RoneEnum.NOT_FOUND.test();
+
         for (RoneEnum r : RoneEnum.values()) {
             System.out.println("code: " + r.getCode() + ", message: " + r.getMessage());
             r.test();
         }
+
+        // 使用枚举缓存来获取响应的枚举对象
+        System.out.println(EnumCache.findByValue(RoneEnum.class, 500, null));
+        System.out.println(EnumCache.findByName(RoneEnum.class, "SUCCESS", null));
     }
 }

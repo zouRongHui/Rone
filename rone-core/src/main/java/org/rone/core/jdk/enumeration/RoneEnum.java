@@ -18,6 +18,11 @@ public enum RoneEnum {
         this.message = message;
     }
 
+    static {
+        EnumCache.registerByName(RoneEnum.class, RoneEnum.values());
+        EnumCache.registerByValue(RoneEnum.class, RoneEnum.values(), RoneEnum::getCode);
+    }
+
     public Integer getCode() {
         return code;
     }
@@ -28,5 +33,20 @@ public enum RoneEnum {
 
     public void test() {
         System.out.println("枚举类的正常方法.");
+    }
+
+    /**
+     * 根据编号获取响应的枚举类
+     * tips：该方法效率低且代码冗余，可使用枚举缓存模式处理，{@link EnumCache}
+     * @param code
+     * @return
+     */
+    public static RoneEnum getByCode(Integer code) {
+        for (RoneEnum roneEnum : RoneEnum.values()) {
+            if (roneEnum.getCode().equals(code)) {
+                return roneEnum;
+            }
+        }
+        return null;
     }
 }
