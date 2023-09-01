@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 /**
- * 循环任务
- * 单线程执行任务，当上一次任务没完成时，下一次任务是不会触发的
+ * 简单的单线程任务调度，在方法上使用@Scheduled来实现(当上一次任务没完成时，下一次任务是不会触发的)
+ * 要求：需要在启动类使用 @EnableScheduling 注解，标明支持scheduling，{@link org.rone.web.WebApplication}
  * @author rone
  */
 @Component

@@ -10,8 +10,30 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 用户(User)表数据库访问层
- * 注解映射和xml映射混合使用
+ * mybatis
+ * 使用步骤
+ *  ●. pom.xml
+ *     <dependency>
+ *         <groupId>org.mybatis.spring.boot</groupId>
+ *         <artifactId>mybatis-spring-boot-starter</artifactId>
+ *     </dependency>
+ *  ●. application.yml
+ *     # mybatis的相关配置
+ *     mybatis:
+ *       # mapper配置文件，使用xml形式的映射语句的情况下该配置必要
+ *       mapper-locations: classpath:mapper/*.xml
+ *       # 指定映射的包名
+ *       type-aliases-package: org.rone.web.model.entity
+ *       configuration:
+ *         # 开启驼峰命名
+ *         map-underscore-to-camel-case: true
+ *  ●. 注解的形式，步骤2中可不配置mapper-locations
+ *      {@link UserDao#getUserByNo(String)}
+ *  ●. 配置文件的形式，步骤2中可不配置type-aliases-package
+ *     配置文件详见：UserDao.xml
+ *      {@link UserDao#queryById(String)}
+ *
+ * 此处为：注解映射和xml映射混合使用
  * 其中xml映射形式中具体的sql详见resources下/mapper/UserDao.xml
  *
  * @author rone

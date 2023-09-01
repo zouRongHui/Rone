@@ -11,8 +11,9 @@ import java.io.IOException;
 
 /**
  * 过滤器
- * WebFilter注解，urlPatterns指定哪些请求会执行此过滤器
- * 执行前后顺序为：filter -> interceptor -> advice -> aspect
+ * ●.启动类增加 @ServletComponentScan(通过注解注册Servlet、Filter、Listener) 注解
+ * ●.@WebFilter urlPatterns指定哪些请求会执行此过滤器
+ * ●.执行前后顺序为：filter -> interceptor -> advice -> aspect
  * ●.当部分请求无需过滤时，解决方案可参考如下
  *     1).将需要过滤的请求统一增加一层路径，然后将filter的配置改为只过滤该层以下的请求
  *         eg.将所有需要过滤的请求增加一层 /api 的路径，然后filter配置改为 @WebFilter(urlPatterns = {"/api/*"})

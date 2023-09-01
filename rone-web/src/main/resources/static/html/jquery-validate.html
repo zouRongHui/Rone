@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>jquery-validate</title>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<fieldset>
+    <legend>验证完整的表单</legend>
+    <form id="roneForm" method="get" action="">
+        <p>
+            <label for="username">用户名</label>
+            <input id="username" name="username" type="text">
+        </p>
+        <p>
+            <label for="password">密码</label>
+            <input id="password" name="password" type="password">
+        </p>
+        <p>
+            <label for="confirm_password">验证密码</label>
+            <input id="confirm_password" name="confirm_password" type="password">
+        </p>
+        <p>
+            <label for="email">邮箱</label>
+            <input id="email" name="email" type="email">
+        </p>
+        <p>
+            <label for="githubUrl">github主页</label>
+            <input id="githubUrl" name="githubUrl" type="text">
+        </p>
+        <p>
+            <label for="birthday">出生日期</label>
+            <input id="birthday" name="birthday" type="text">
+        </p>
+        <p>
+            <label for="age">年龄</label>
+            <input id="age" name="age" type="text">
+        </p>
+        <p>
+            <label for="weight">体重</label>
+            <input id="weight" name="weight" type="text">
+        </p>
+        <p>
+            <label for="agree">请同意我们的声明</label>
+            <input type="checkbox" class="checkbox" id="agree" name="agree">
+        </p>
+        <p>
+            <label for="newsletter">我乐意接收新信息</label>
+            <input type="checkbox" class="checkbox" id="newsletter" name="newsletter">
+        </p>
+        <fieldset id="newsletter_topics">
+            <legend>主题 (至少选择两个) - 注意：如果没有勾选“我乐意接收新信息”以下选项会隐藏，但我们这里作为演示让它可见
+            </legend>
+            <label for="topic_marketflash">
+                <input type="checkbox" id="topic_marketflash" value="marketflash" name="topic">Marketflash
+            </label>
+            <label for="topic_fuzz">
+                <input type="checkbox" id="topic_fuzz" value="fuzz" name="topic">Latest fuzz
+            </label>
+            <label for="topic_digester">
+                <input type="checkbox" id="topic_digester" value="digester" name="topic">Mailing list digester
+            </label>
+        </fieldset>
+        <p>
+            <button type="submit">提交</button>
+        </p>
+    </form>
+</fieldset>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/localization/messages_zh.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // 自定义规则
+        $.validator.addMethod("passwordComplexity", function(value, element) {
+            // 在这里编写你的自定义验证逻辑
+            // 返回 true 表示验证通过，返回 false 表示验证失败
+            // 可以使用正则表达式、条件语句等进行验证
+            return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(value);
+        }, "密码必须包含至少一个大写字母、一个小写字母和一个数字，并且长度至少为8位");
+
+        // 在键盘按下并释放及提交后验证提交表单
+        $("#roneForm").validate({
+            rules: {
+                username: {// 如果属性名特殊(例如 user.name)时，需要用双引号表达 "user.name"
+                    required: true,// 必填字段
+                    minlength: 3,// 最小长度（汉字算一个字符）
+                    maxlength: 10,// 最大长度（汉字算一个字符）
+                    // remote: {// 使用 ajax 方法远程验证输入的值
+                    //     url: "/checkUserName",      //后台处理程序，远程地址只能输出 "true" 或 "false"，不能有其他输出。
+                    //     type: "post",               //数据发送方式
+                    //     data: {                     //要传递的数据
+                    //         username: function() {
+                    //             return $("#username").val();
+                    //         }
+                    //     }
+                    // }
+                },
+                password: {
+                    required: true,// 必填字段
+                    rangelength: [1, 100],// 长度范围（汉字算一个字符）
+                    passwordComplexity: true,// 自定义的规则
+                },
+                confirm_password: {
+                    equalTo: "#password",// 输入值必须和指定值相同
+                },
+                email: {
+                    email: true,// 邮箱格式url
+                },
+                githubUrl: {
+                    url: true,// URL 地址格式
+                },
+                birthday: {
+                    dateISO: true,// 日期格式(yyyy-MM-dd、yyyy/MM/dd)，只验证格式，不验证有效性
+                },
+                age: {
+                    digits: true,// 必须输入整数
+                    min: 1,// 最小值
+                    max: 100,// 最大值
+                },
+                weight: {
+                    number: true,// 数字格式（负数，小数）
+                    range: [50, 100],// 值范围
+                },
+                topic: {
+                    required: true,
+                    minlength: 2
+                }
+            },
+            messages: {
+                // 不指定错误说明得会使用默认得说明提示
+                username: {
+                    required: "请输入用户名",
+                    remote: "用户名已存在",
+                },
+                confirm_password: {
+                    equalTo: "两次输入的密码不一致",
+                },
+                topic: "请选择两个主题"
+            }
+        });
+
+        $("#roneForm").submit(function() {
+            // alert("提交事件!");
+            if ($("#roneForm").valid()) {
+                // 表单验证通过，执行提交操作
+            }
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

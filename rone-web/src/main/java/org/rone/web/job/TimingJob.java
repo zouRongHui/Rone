@@ -10,8 +10,12 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 /**
- * 定时任务
- * 相比简单的@Scheduled ，此方案可动态修改执行时间
+ * 多线程任务调度，通过SchedulingConfigurer接口来实现(每次都会额外开启一个线程去执行任务，不管上一次任务有没有完成)
+ * 相比简单的@Scheduled ，此方案可动态修改执行时间。
+ * 要求：
+ *  1.需要在启动类使用 @EnableScheduling 注解，标明支持scheduling，{@link org.rone.web.WebApplication}
+ *  2.需要配置使用的线程池，{@link org.rone.web.config.ScheduledThreadPoolConfig}
+ * Tips：定时任务的开启时间尽量避免 0点 这个时间点，曾遇到过任务9点执行，但每次日志输出的时间点都提前的两秒，怀疑是服务器9点自动取同步互联网时间导致的差错(没深究)
  * @author rone
  */
 @Component

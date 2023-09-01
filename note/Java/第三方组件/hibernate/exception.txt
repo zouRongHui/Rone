@@ -1,9 +1,0 @@
-
-●.org.hibernate.PersistentObjectException 持久化对象的时候出问题了，也就是说，数据记录在插入数据库的时候出现异常
-    可能原因 主键设置为自生成，而插入时主键已设置
-    
-●.org.hibernate.LazyInitializationException: could not initialize proxy - no Session 不能初始化代理——没有session
-    原因是：本身数据加载出来了，而使用@ManyToOne等关联的数据使用的是懒加载策略，当访问关联的数据时session已经关闭而导致的异常。
-    solution：
-        把这个类的延迟加载禁掉，fetch=FetchType.EAGER
-        在hql语句中使用 迫切左外连接。

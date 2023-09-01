@@ -1,7 +1,0 @@
-●.设置单个CSS样式
-	$("#spGetAuthCode").css("background", "#21c8ec;");
-	
-●.设置多个CSS样式
-	$("p").css({ "color": "#ff0011", "background": "blue" });
-●.获取CSS样式
-	$("p").css("color");

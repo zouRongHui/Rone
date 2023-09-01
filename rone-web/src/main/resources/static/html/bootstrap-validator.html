@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bootstrapDemo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/css/bootstrapValidator.min.css"/>
+</head>
+<body>
+<div class="container">
+    <!--
+        在表单中，若对某一字段想添加验证规则，默认需要以<div class=”form-group”></div>包裹（对应错误提示会根据该class值定位），
+        内部<input class="form-control" />标签必须有name属性值，此值为验证匹配字段。
+    -->
+    <form id="form-test">
+        <div class="form-group">
+            <label class="col-lg-3 control-label">Username</label>
+            <div class="col-lg-9">
+                <input type="text" class="form-control" name="username"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-3 control-label">Email address</label>
+            <div class="col-lg-9">
+                <input type="text" class="form-control" name="email"/>
+            </div>
+        </div>
+        <button type="submit">提交</button>
+    </form>
+</div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
+<script type="text/javascript">
+    $("#form-test").bootstrapValidator({
+        // 指定不验证的情况
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        // 生效规则，enabled字段值有变化就触发验证、submitted 当点击提交时验证并展示错误信息
+        live: 'enabled',
+        // 通用错误提示语
+        message: 'This value is not valid',
+        // 指定提交的按钮，例如：'.submitBtn' '#submitBtn'
+        submitButtons: 'button[type="submit"]',
+        // 提交处理，一般用于ajax自定义提交。function(validator 表单验证实例, form 表单, submitButton 提交按钮) {}
+        submitHandler: null,
+        // 为字段设置统一触发验证方式（也可在fields中为每个字段单独定义），默认是live配置的方式，也可以指定一个或多个（多个空格隔开） 'focus blur keyup'
+        trigger: null,
+        // 表单域配置，给字段定义验证规则
+        fields: {
+            // 字段name属性值
+            username: {
+                // 定义触发验证方式，默认是live配置的方式，也可以指定一个或多个（多个空格隔开） 'focus blur keyup'
+                trigger: null,
+                // 定义具体得验证规则
+                validators: {
+                    // 具体的验证规则，可直接使用通用定义得规则
+                    // // 检测非空，radio也可用
+                    // notEmpty: {
+                    //     message: '文本框必须输入'
+                    // },
+                    // // 检测长度，只在修改时触发验证，需要配合 notEmpty 使用
+                    // stringLength: {
+                    //     min: 6,
+                    //     max: 30,
+                    //     message: '长度必须在6-30之间'
+                    // },
+                    // // 正则验证，只在修改时触发验证
+                    // regexp: {
+                    //     regexp: /^[a-zA-Z0-9_\.]+$/,
+                    //     message: '所输入的字符不符要求'
+                    // },
+                    // // ajax远程认证，只在修改时触发验证(根据配置的delay触发)，一般用在某些字段唯一性的判断。向服务发送当前input name值，获得一个json数据。表示通过验证：{"valid"：true}
+                    // remote: {
+                    //     url: 'exist2.do', // 验证地址
+                    //     message: '用户已存在', // 提示消息
+                    //     delay: 2000, // 每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
+                    //     type: 'POST', // 请求方式
+                    //     date: function (validator) { // 自定义提交数据，默认值提交当前input value
+                    //         return {
+                    //             username: 'rone'
+                    //         };
+                    //     }
+                    // },
+                    // // 与指定文本框比较内容相同，只在修改时触发验证
+                    // different: {
+                    //     field: 'email',
+                    //     message: '不能与指定文本框内容相同'
+                    // },
+                    // // 验证email地址，只在修改时触发验证
+                    // emailAddress: {
+                    //     message: '不是正确的email地址'
+                    // },
+                    // // 与指定控件内容比较是否相同，比如两次密码不一致，只在修改时触发验证
+                    // identical: {
+                    //     field: 'email',
+                    //     message: '输入的内容不一致'
+                    // },
+                    // // 验证指定的日期格式，只在修改时触发验证
+                    // date: {
+                    //     format: 'YYYY/MM/DD',
+                    //     message: '日期格式不正确'
+                    // },
+                    // // check控件选择的数量
+                    // choice: {
+                    //     min: 2,
+                    //     max: 4,
+                    //     message: '必须选择2-4个选项'
+                    // },
+                    // 自定义验证规则
+                    callback: {
+                        message: '自定义的验证规则',
+                        //value：当前组件的value值，validator：当前validator
+                        callback: function (value, validator) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // // 重新验证某个属性。当属性值被其他组件修改后可通过该方法重新验证。
+    // $("#form-test").data('bootstrapValidator').revalidateField("username");
+    // // 重置验证。清除所有验证结果和提示信息，所有字段都将标记为未验证。
+    // $("#form-test").data('bootstrapValidator').resetForm();
+
+</script>
+</html>
