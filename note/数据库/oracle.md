@@ -192,6 +192,17 @@ union select '26', 'jack', '男', 32, '13345674567' from dual
 INSERT INTO dual VALUES ('=''rone''');
 ```
 
+* 分页中排序
+要先排序然后再按照 ROWNUM 去做分页，就是再最外面要套两层
+```oracle
+select *
+from (select ROWNUM as no, tt.* from (select * from Rone t order by t.seq desc) tt)
+where no > 0 and no <= 20;
+```
+
+* in的参数数量
+条件中使用in时，参数数量要控制在1000以下(in的条件是子查询时没关系)。参数实在过多的可以用 or 连接多个 in 条件。 
+
 ************************************************************************************************************************
 ### 序列
 [参考文档](https://blog.csdn.net/love___code/article/details/79182455)
