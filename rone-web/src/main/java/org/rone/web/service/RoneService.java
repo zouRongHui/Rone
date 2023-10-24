@@ -234,5 +234,6 @@ public class RoneService {
 
     public void jdbcTemplateDemo() {
         jdbcTemplateDemoDao.demo();
+        // jdbcTemplateDemoDao.transaction();
     }
 }

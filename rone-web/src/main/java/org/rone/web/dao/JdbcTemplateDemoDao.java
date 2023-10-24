@@ -1,5 +1,6 @@
 package org.rone.web.dao;
 
+import org.rone.core.jdk.exception.RoneException;
 import org.rone.web.model.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,9 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,14 +60,17 @@ public class JdbcTemplateDemoDao {
      */
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    private final PlatformTransactionManager platformTransactionManager;
+
     /**
      * 第二数据源，IOC注入时需要按照名称来注入
      */
     // private final JdbcTemplate secondJdbcTemplate;
 
-    public JdbcTemplateDemoDao(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public JdbcTemplateDemoDao(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate, PlatformTransactionManager platformTransactionManager) {
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+        this.platformTransactionManager = platformTransactionManager;
     }
 
     public void demo() {
@@ -158,5 +165,25 @@ public class JdbcTemplateDemoDao {
         paramMap.put("userNos", ids);
         List<User> userList1 = namedParameterJdbcTemplate.query(sql, paramMap, new BeanPropertyRowMapper<>(User.class));
         logger.info("NamedParameterJdbcTemplate 条件语句中使用 in : {}", userList1);
+    }
+
+    /**
+     * 事务，手动回滚事务
+     */
+    public void transaction() {
+        TransactionStatus transactionStatus = platformTransactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            String sql = "UPDATE web_user SET user_name=? WHERE user_no=?";
+            int executeNum = jdbcTemplate.update(sql, "Jack1111", "1");
+            logger.info("JdbcTemplate 单个执行写类型SQL语句，执行结果: {}", executeNum);
+            if (executeNum > 0) {
+                throw new RoneException("rone test");
+            }
+
+            platformTransactionManager.commit(transactionStatus);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            platformTransactionManager.rollback(transactionStatus);
+        }
     }
 }
