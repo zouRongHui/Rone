@@ -389,10 +389,19 @@
 
   // Array 数组对象
   var roneArray = ["hello", "world"];
-  // 遍历数组
+  // 遍历数组，四种写法
   for (i in roneArray) {
       console.log(roneArray[i]);
   }
+  roneArray.forEach(function (item, index) {
+      console.log(index, item);
+  });
+  for (var element of roneArray) {
+      console.log(element);
+  }
+  roneArray.map(function (item, index) {
+      console.log(index, item);
+  });
   roneArray.push("!"); //在数组最后添加一个元素
   roneArray.concat("hello", "js"); //连接两个或多个数组，返回一个新的数组，不会影响原数组
   roneArray.join("_"); //将数组按"_"分隔符组成字符串，若未指定分隔符默认使用,
